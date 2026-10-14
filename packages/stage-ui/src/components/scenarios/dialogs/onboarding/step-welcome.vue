@@ -2,6 +2,7 @@
 import type { OnboardingStepNextHandler } from './types'
 
 import { all } from '@proj-airi/i18n'
+import { isEnvTruthy } from '@proj-airi/stage-shared'
 import { Button, DropdownMenu } from '@proj-airi/ui'
 import { storeToRefs } from 'pinia'
 import { DropdownMenuItem } from 'reka-ui'
@@ -30,6 +31,13 @@ const { language } = storeToRefs(settingsStore)
 const languages = computed(() => {
   return Object.entries(all).map(([value, label]) => ({ value, label }))
 })
+
+// NOTICE: `VITE_DISABLE_CLOUD_AUTH` removes the sign-in call to action from
+// self-hosted web deployments whose domains cannot complete the official OIDC
+// callback; local setup becomes the primary action instead. Official
+// deployments leave the variable unset and are unaffected. Removal condition:
+// when sign-in supports custom deployment origins, drop this gate.
+const cloudAuthDisabled = isEnvTruthy(import.meta.env.VITE_DISABLE_CLOUD_AUTH)
 
 async function handleLogin() {
   onboardingStore.showingSetup = false
@@ -116,6 +124,7 @@ function handleLocalSetup() {
     </div>
     <div :class="['mx-2 flex flex-col items-stretch gap-2']">
       <Button
+        v-if="!cloudAuthDisabled"
         v-motion="{
           initial: { opacity: 0, y: 8 },
           enter: { opacity: 1, y: 0 },
@@ -129,16 +138,18 @@ function handleLocalSetup() {
         @click="handleLogin"
       />
       <Button
-        v-if="props.customProviderSetupEnabled"
+        v-if="props.customProviderSetupEnabled || cloudAuthDisabled"
         v-motion="{
           initial: { opacity: 0 },
           enter: { opacity: 1 },
           duration: 500,
           delay: 250,
         }"
-        variant="secondary"
+        :color="cloudAuthDisabled ? 'primary' : undefined"
+        :variant="cloudAuthDisabled ? 'primary' : 'secondary'"
         :outline="false"
-        :class="['bg-transparent! text-neutral-600 dark:bg-neutral-700/60! dark:text-neutral-200']"
+        size="lg"
+        :class="cloudAuthDisabled ? [] : ['bg-transparent! text-neutral-600 dark:bg-neutral-700/60! dark:text-neutral-200']"
         :label="t('settings.dialogs.onboarding.setupWithoutSigningIn')"
         @click="handleLocalSetup"
       />

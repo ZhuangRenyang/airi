@@ -2041,6 +2041,13 @@ pages:
       openpaths:
         description: openpaths.io
         title: OpenPaths
+      pollinations:
+        description: Free AI text generation, works without an API key
+        title: Pollinations
+        config:
+          api-key:
+            description: Optional. Adds a key only to raise anonymous rate limits.
+            placeholder: Leave empty for the free anonymous tier
       openrouter:
         description: openrouter.ai
         title: OpenRouter

@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { isEnvTruthy } from '@proj-airi/stage-shared'
 import { useAuthStore } from '@proj-airi/stage-ui/stores/auth'
 import { Avatar, BasicButton, BottomDrawer, Checkbox, GhostButton, SelectTab, useTheme } from '@proj-airi/ui'
 import { useEventListener } from '@vueuse/core'
@@ -23,6 +24,12 @@ const { themeMode } = useTheme()
 const authStore = useAuthStore()
 const { isAuthenticated, user } = storeToRefs(authStore)
 const router = useRouter()
+// NOTICE: `VITE_DISABLE_CLOUD_AUTH` hides the sign-in surfaces from
+// self-hosted web deployments whose domains cannot complete the official
+// OIDC callback. Official deployments leave the variable unset and are
+// unaffected. Removal condition: when sign-in supports custom deployment
+// origins, drop this gate.
+const cloudAuthDisabled = isEnvTruthy(import.meta.env.VITE_DISABLE_CLOUD_AUTH)
 const backgroundDialogOpen = shallowRef(false)
 const settingsOpen = shallowRef(false)
 const aboutOpen = shallowRef(false)
@@ -58,10 +65,12 @@ function finishSettingsClose() {
     aboutOpen.value = true
   }
   else if (nextPanel.value === 'account') {
-    if (isAuthenticated.value)
-      void router.push('/settings/account')
-    else
-      authStore.needsLogin = true
+    if (!cloudAuthDisabled) {
+      if (isAuthenticated.value)
+        void router.push('/settings/account')
+      else
+        authStore.needsLogin = true
+    }
   }
   else if (nextPanel.value === 'view') {
     emit('openViewControls')
@@ -91,7 +100,7 @@ function finishSettingsClose() {
       </BasicButton>
     </template>
     <div :class="['mobile-settings-actions select-none', keyboardNavigation && 'keyboard-navigation']">
-      <div :class="['mb-4 overflow-hidden rounded-2xl bg-white dark:bg-neutral-800/60']">
+      <div v-if="!cloudAuthDisabled" :class="['mb-4 overflow-hidden rounded-2xl bg-white dark:bg-neutral-800/60']">
         <GhostButton
           block size="unset"
           :class="[

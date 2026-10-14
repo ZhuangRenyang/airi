@@ -31,7 +31,6 @@
     "@proj-airi/ccc": "workspace:^",
     "@proj-airi/drizzle-duckdb-wasm": "catalog:",
     "@proj-airi/font-chillroundm": "workspace:^",
-    "@proj-airi/font-cjkfonts-allseto": "workspace:^",
     "@proj-airi/font-xiaolai": "workspace:^",
     "@proj-airi/i18n": "workspace:^",
     "@proj-airi/model-driver-mediapipe": "workspace:^",

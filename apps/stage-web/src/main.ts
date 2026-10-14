@@ -24,7 +24,6 @@ import App from './App.vue'
 
 import { i18n } from './modules/i18n'
 
-import '@proj-airi/font-cjkfonts-allseto/index.css'
 import '@proj-airi/font-xiaolai/index.css'
 import '@unocss/reset/tailwind.css'
 import 'splitpanes/dist/splitpanes.css'
@@ -52,6 +51,18 @@ if (isEnvTruthy(import.meta.env.VITE_APP_TARGET_HUGGINGFACE_SPACE))
   router = createRouter({ routes: routeRecords, history: createWebHashHistory() })
 else
   router = createRouter({ routes: routeRecords, history: createWebHistory() })
+
+// NOTICE: `VITE_DISABLE_CLOUD_AUTH` keeps self-hosted web deployments whose
+// domains cannot complete the official OIDC callback away from the cloud
+// account pages. Official deployments leave the variable unset and are
+// unaffected. Removal condition: when sign-in supports custom deployment
+// origins, drop this gate.
+if (isEnvTruthy(import.meta.env.VITE_DISABLE_CLOUD_AUTH)) {
+  router.beforeEach((to) => {
+    if (to.path === '/settings/account' || to.path === '/settings/flux')
+      return { path: '/settings' }
+  })
+}
 
 router.beforeEach((to, from) => {
   if (to.path !== from.path)

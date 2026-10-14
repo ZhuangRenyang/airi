@@ -31,6 +31,11 @@ const freeLocal = {
   deployment: 'local',
 } satisfies ProviderAttributes
 
+const freeCloud = {
+  pricing: 'free',
+  deployment: 'cloud',
+} satisfies ProviderAttributes
+
 const recommendedPaidCloud = {
   ...paidCloud,
   beginnerRecommended: true,
@@ -98,6 +103,7 @@ const providerAttributesById = {
   'openrouter-audio-speech': paidCloud,
   'perplexity-ai': paidCloud,
   'player2-speech': freeLocal,
+  'pollinations': freeCloud,
   'speech-noop': false,
   'together-ai': paidCloud,
   'voicevox': freeLocal,

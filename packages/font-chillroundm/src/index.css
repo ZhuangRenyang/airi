@@ -1,15 +1,7 @@
-/* ChillRoundM Regular */
+/* ChillRoundM Regular (subset: GB2312 + Latin, WOFF2) */
 @font-face {
   font-family: 'ChillRoundM';
   font-style: normal;
   font-display: swap;
-  src: url(./files/ChillRoundM.ttf) format('truetype');
-}
-
-/* ChillRoundM Regular (otf) */
-@font-face {
-  font-family: 'ChillRoundM';
-  font-style: normal;
-  font-display: swap;
-  src: url(./files/ChillRoundM.otf) format('opentype');
+  src: url(./files/ChillRoundM.woff2) format('woff2');
 }

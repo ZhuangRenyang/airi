@@ -1897,6 +1897,13 @@ pages:
       openai-compatible:
         description: OpenAI 兼容 API
         title: OpenAI 兼容 API
+      pollinations:
+        description: 免费 AI 文本生成，无需 API Key 即可使用
+        title: Pollinations
+        config:
+          api-key:
+            description: 可选。填写 Key 仅用于提升匿名使用的速率限制。
+            placeholder: 留空即可使用免费匿名额度
       n1n:
         description: n1n.ai - 高性能的 AI API 提供商
       openrouter:

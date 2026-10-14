@@ -1,7 +1,7 @@
-/* Xiaolai SC Regular */
+/* Xiaolai SC Regular (subset: GB2312 + Latin, WOFF2) */
 @font-face {
   font-family: 'Xiaolai SC';
   font-style: normal;
   font-display: swap;
-  src: url(./files/XiaolaiSC-Regular.ttf) format('truetype');
+  src: url(./files/XiaolaiSC-Regular.woff2) format('woff2');
 }

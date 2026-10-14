@@ -3,6 +3,7 @@ import type { ChatRequestOptions, GenerationRequest } from '@proj-airi/provider-
 import type { ModelInfo, ProviderModelCatalog, VoiceInfo } from '../../types'
 
 import { compatibleProtocols, generationProtocolOptions } from '@proj-airi/provider-inference'
+import { isEnvTruthy } from '@proj-airi/stage-shared'
 import { z } from 'zod'
 
 import { getAuthToken } from '../../../../libs/auth'
@@ -62,6 +63,12 @@ export const providerOfficialChat = defineProvider<OfficialChatConfig, typeof OF
   nameLocalize: ({ t }) => t('settings.pages.providers.provider.official.title'),
   description: 'Official AI provider by AIRI.',
   descriptionLocalize: ({ t }) => t('settings.pages.providers.provider.official.description'),
+  // NOTICE: `VITE_DISABLE_CLOUD_AUTH` removes the hosted cloud surfaces from
+  // self-hosted web deployments whose domains cannot complete the official
+  // OIDC callback. Official deployments leave the variable unset and are
+  // unaffected. Removal condition: when sign-in supports custom deployment
+  // origins, drop this gate.
+  isAvailableBy: () => !isEnvTruthy(import.meta.env.VITE_DISABLE_CLOUD_AUTH),
   tasks: ['text-generation'],
   icon: OFFICIAL_ICON,
   requiresCredentials: false,
@@ -121,6 +128,7 @@ export const providerOfficialSpeech = defineProvider({
   nameLocalize: ({ t }) => t('settings.pages.providers.provider.official.speech-title'),
   description: 'Official text-to-speech provider by AIRI.',
   descriptionLocalize: ({ t }) => t('settings.pages.providers.provider.official.speech-description'),
+  isAvailableBy: () => !isEnvTruthy(import.meta.env.VITE_DISABLE_CLOUD_AUTH),
   tasks: ['text-to-speech'],
   icon: OFFICIAL_ICON,
   requiresCredentials: false,
@@ -241,6 +249,7 @@ export const providerOfficialSpeechStreaming = defineProvider({
   nameLocalize: ({ t }) => t('settings.pages.providers.provider.official.speech-streaming-title'),
   description: 'Official streaming text-to-speech provider by AIRI (low-latency bidirectional WebSocket).',
   descriptionLocalize: ({ t }) => t('settings.pages.providers.provider.official.speech-streaming-description'),
+  isAvailableBy: () => !isEnvTruthy(import.meta.env.VITE_DISABLE_CLOUD_AUTH),
   tasks: ['text-to-speech'],
   icon: OFFICIAL_ICON,
   requiresCredentials: false,
@@ -337,6 +346,7 @@ export const providerOfficialTranscription = defineProvider({
   nameLocalize: ({ t }) => t('settings.pages.providers.provider.official.transcription-title'),
   description: 'Official realtime speech-to-text provider by AIRI.',
   descriptionLocalize: ({ t }) => t('settings.pages.providers.provider.official.transcription-description'),
+  isAvailableBy: () => !isEnvTruthy(import.meta.env.VITE_DISABLE_CLOUD_AUTH),
   tasks: ['speech-to-text', 'automatic-speech-recognition', 'asr', 'stt', 'streaming-transcription'],
   icon: OFFICIAL_ICON,
   requiresCredentials: false,

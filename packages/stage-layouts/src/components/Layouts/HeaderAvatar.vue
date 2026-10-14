@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { isCapacitorAvailable } from '@proj-airi/stage-shared'
+import { isCapacitorAvailable, isEnvTruthy } from '@proj-airi/stage-shared'
 import { signOut } from '@proj-airi/stage-ui/libs/auth'
 import { useAuthStore } from '@proj-airi/stage-ui/stores/auth'
 import { Avatar, DropdownMenu } from '@proj-airi/ui'
@@ -26,6 +26,12 @@ const userAvatar = computed(() => user.value?.image)
 
 const formattedCredits = computed(() => credits.value.toLocaleString())
 const capacitorAvailable = isCapacitorAvailable()
+// NOTICE: `VITE_DISABLE_CLOUD_AUTH` hides the sign-in surfaces from
+// self-hosted web deployments whose domains cannot complete the official
+// OIDC callback. Official deployments leave the variable unset and are
+// unaffected. Removal condition: when sign-in supports custom deployment
+// origins, drop this gate.
+const cloudAuthDisabled = isEnvTruthy(import.meta.env.VITE_DISABLE_CLOUD_AUTH)
 </script>
 
 <template>
@@ -190,7 +196,7 @@ const capacitorAvailable = isCapacitorAvailable()
       </template>
 
       <template v-else>
-        <DropdownMenuItem as-child>
+        <DropdownMenuItem v-if="!cloudAuthDisabled" as-child>
           <button
             :class="[
               'group w-full flex cursor-pointer select-none items-center gap-3 rounded-lg px-3 py-2',
@@ -205,9 +211,9 @@ const capacitorAvailable = isCapacitorAvailable()
           </button>
         </DropdownMenuItem>
 
-        <DropdownMenuSeparator :class="['mx-2 my-1 h-px bg-neutral-200/80 dark:bg-neutral-700/80']" />
+        <DropdownMenuSeparator v-if="!cloudAuthDisabled" :class="['mx-2 my-1 h-px bg-neutral-200/80 dark:bg-neutral-700/80']" />
 
-        <DropdownMenuItem as-child>
+        <DropdownMenuItem v-if="!cloudAuthDisabled" as-child>
           <RouterLink
             to="/settings/flux"
             :class="[

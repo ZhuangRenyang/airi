@@ -165,6 +165,20 @@ export default defineConfig({
         resolve(import.meta.dirname, '..', '..', 'packages', 'stage-pages', 'src', 'pages'),
       ],
       exclude: ['**/components/**'],
+      // NOTICE: `VITE_DISABLE_CLOUD_AUTH` removes the cloud account surfaces
+      // from the settings home grid of self-hosted web deployments whose
+      // domains cannot complete the official OIDC callback. Official
+      // deployments leave the variable unset and are unaffected. Removal
+      // condition: when sign-in supports custom deployment origins, drop this
+      // gate.
+      extendRoute(route) {
+        const cloudAuthDisabled = env.VITE_DISABLE_CLOUD_AUTH === 'true' || env.VITE_DISABLE_CLOUD_AUTH === '1'
+        if (cloudAuthDisabled && (route.path === '/settings/account' || route.path === '/settings/flux')) {
+          const meta = route.meta as Record<string, unknown> | undefined
+          if (meta)
+            delete meta.settingsEntry
+        }
+      },
     }),
 
     // https://github.com/JohnCampionJr/vite-plugin-vue-layouts

@@ -2,7 +2,6 @@
 import type { OnboardingStepNextHandler } from './types'
 
 import { all } from '@proj-airi/i18n'
-import { isEnvTruthy } from '@proj-airi/stage-shared'
 import { Button, DropdownMenu } from '@proj-airi/ui'
 import { storeToRefs } from 'pinia'
 import { DropdownMenuItem } from 'reka-ui'
@@ -12,8 +11,10 @@ import { useI18n } from 'vue-i18n'
 import onboardingLogo from '../../../../assets/onboarding.avif'
 
 import { AIRI_FLUX_URL, AIRI_TERMS_URL } from '../../../../constants/public-links'
-import { useAuthStore } from '../../../../stores/auth'
-import { useOnboardingStore } from '../../../../stores/onboarding'
+// NOTICE: auth/onboarding stores return with the login action button; see the
+// template below. Removal condition: restore when sign-in is available here.
+// import { useAuthStore } from '../../../../stores/auth'
+// import { useOnboardingStore } from '../../../../stores/onboarding'
 import { useSettingsGeneral } from '../../../../stores/settings'
 
 interface Props {
@@ -23,8 +24,8 @@ interface Props {
 
 const props = defineProps<Props>()
 const { t } = useI18n()
-const authStore = useAuthStore()
-const onboardingStore = useOnboardingStore()
+// const authStore = useAuthStore()
+// const onboardingStore = useOnboardingStore()
 const settingsStore = useSettingsGeneral()
 const { language } = storeToRefs(settingsStore)
 
@@ -32,17 +33,16 @@ const languages = computed(() => {
   return Object.entries(all).map(([value, label]) => ({ value, label }))
 })
 
-// NOTICE: `VITE_DISABLE_CLOUD_AUTH` removes the sign-in call to action from
-// self-hosted web deployments whose domains cannot complete the official OIDC
-// callback; local setup becomes the primary action instead. Official
-// deployments leave the variable unset and are unaffected. Removal condition:
-// when sign-in supports custom deployment origins, drop this gate.
-const cloudAuthDisabled = isEnvTruthy(import.meta.env.VITE_DISABLE_CLOUD_AUTH)
+// NOTICE: Sign-in is hard-disabled in this self-hosted web-only fork; the
+// login action button is commented out in the template below.
+// Removal condition: restore when a sign-in server accepting custom
+// deployment origins is available.
+// const cloudAuthDisabled = isEnvTruthy(import.meta.env.VITE_DISABLE_CLOUD_AUTH)
 
-async function handleLogin() {
-  onboardingStore.showingSetup = false
-  await authStore.requestLogin()
-}
+// async function handleLogin() {
+//   onboardingStore.showingSetup = false
+//   await authStore.requestLogin()
+// }
 
 function handleLocalSetup() {
   props.onNext()
@@ -123,7 +123,11 @@ function handleLocalSetup() {
       </p>
     </div>
     <div :class="['mx-2 flex flex-col items-stretch gap-2']">
-      <Button
+      <!-- NOTICE: Sign-in is hard-disabled in this self-hosted web-only fork.
+        The deployment domain cannot complete the official OIDC callback.
+        Removal condition: restore when a sign-in server accepting custom
+        deployment origins is available. -->
+      <!-- <Button
         v-if="!cloudAuthDisabled"
         v-motion="{
           initial: { opacity: 0, y: 8 },
@@ -136,20 +140,18 @@ function handleLocalSetup() {
         size="lg"
         :label="t('settings.dialogs.onboarding.loginAction')"
         @click="handleLogin"
-      />
+      /> -->
       <Button
-        v-if="props.customProviderSetupEnabled || cloudAuthDisabled"
         v-motion="{
           initial: { opacity: 0 },
           enter: { opacity: 1 },
           duration: 500,
           delay: 250,
         }"
-        :color="cloudAuthDisabled ? 'primary' : undefined"
-        :variant="cloudAuthDisabled ? 'primary' : 'secondary'"
+        color="primary"
+        variant="primary"
         :outline="false"
         size="lg"
-        :class="cloudAuthDisabled ? [] : ['bg-transparent! text-neutral-600 dark:bg-neutral-700/60! dark:text-neutral-200']"
         :label="t('settings.dialogs.onboarding.setupWithoutSigningIn')"
         @click="handleLocalSetup"
       />

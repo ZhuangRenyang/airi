@@ -6,7 +6,10 @@ import MobileInteractiveArea from '@proj-airi/stage-layouts/components/Layouts/M
 import { BackgroundProvider } from '@proj-airi/stage-layouts/components/Backgrounds'
 import { useBackgroundThemeColor } from '@proj-airi/stage-layouts/composables/theme-color'
 import { useBackgroundStore } from '@proj-airi/stage-layouts/stores/background'
-import { HoloCoupon } from '@proj-airi/stage-ui/components'
+// NOTICE: HoloCoupon opens the cloud coupon flow, which requires sign-in.
+// Sign-in is hard-disabled in this self-hosted web-only fork.
+// Removal condition: restore when sign-in is available on this domain.
+// import { HoloCoupon } from '@proj-airi/stage-ui/components'
 import { ViewControlSlider, WidgetStage } from '@proj-airi/stage-ui/components/scenes'
 import { useVoiceHoldKey } from '@proj-airi/stage-ui/composables/voice-hold'
 import { useVoiceListening, useVoicePushToTalk } from '@proj-airi/stage-ui/composables/voice-input-mode'
@@ -121,7 +124,8 @@ const cursorPosition = computed(() => ({
         </div>
         <InteractiveArea v-if="!isMobile" h="85dvh" absolute right-4 flex flex-1 flex-col max-w="500px" min-w="30%" />
       </div>
-      <HoloCoupon />
+      <!-- NOTICE: HoloCoupon disabled together with sign-in; see the import above. -->
+      <!-- <HoloCoupon /> -->
     </div>
     <Teleport to="body">
       <MobileInteractiveArea

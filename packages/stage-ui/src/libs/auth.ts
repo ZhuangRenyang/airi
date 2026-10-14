@@ -162,13 +162,22 @@ export async function signInOIDC(params: OIDCFlowParams) {
  * social provider. Omit to land on the project's hosted login page
  * (ui-server-auth) where the user can choose email/password or social.
  */
-export async function triggerSignIn(opts?: { provider?: OAuthProvider }): Promise<void> {
+export async function triggerSignIn(_opts?: { provider?: OAuthProvider }): Promise<void> {
+  // NOTICE: Sign-in is hard-disabled in this self-hosted web-only fork. The
+  // deployment domain cannot complete the official OIDC callback, so every
+  // sign-in path (UI buttons, 401 auto-prompts, needsLogin watchers,
+  // HoloCoupon) is neutralized here instead of bouncing the user to
+  // https://airi.moeru.ai/.
+  // Removal condition: restore when a sign-in server accepting custom
+  // deployment origins is available.
+  return
+
   signingIn.value = true
   try {
     await signInOIDC({
       clientId: OIDC_CLIENT_ID,
       redirectUri: OIDC_REDIRECT_URI,
-      ...opts,
+      ..._opts,
     })
   }
   finally {

@@ -44,6 +44,13 @@ function hasFlagEnableMkcert(): boolean {
 }
 
 export default defineConfig({
+  // NOTICE: Hard-enable the cloud-auth removal gates in this self-hosted
+  // web-only fork (the gates read import.meta.env.VITE_DISABLE_CLOUD_AUTH).
+  // Hard-injecting here avoids relying on a Vercel environment variable.
+  // Removal condition: restore sign-in and drop the gates.
+  define: {
+    'import.meta.env.VITE_DISABLE_CLOUD_AUTH': JSON.stringify('true'),
+  },
   optimizeDeps: {
     exclude: [
       // Internal Packages

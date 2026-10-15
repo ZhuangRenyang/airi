@@ -76,26 +76,22 @@ const siliconFlowSpeechModels = [
     contextLength: 0,
     deprecated: false,
   },
-  {
-    id: 'fishaudio/fish-speech-1.5',
-    name: 'Fish Speech 1.5',
-    provider: 'siliconflow-speech',
-    description: 'Multilingual open model with expressive delivery.',
-    contextLength: 0,
-    deprecated: false,
-  },
+  // NOTICE: fish-speech-1.5 is deliberately not listed — its preset voices on
+  // SiliconFlow differ from the CosyVoice2 set and would leave the voice
+  // dropdown empty. Re-add together with a fish-compatible voice roster.
 ]
 
-// Preset voice ids follow SiliconFlow's `{model}:{name}` convention.
+// Preset voice ids follow SiliconFlow's `{model}:{name}` convention. Labels
+// are user-facing: keep them Chinese, this fork's audience reads Chinese.
 const siliconFlowSpeechVoices = [
-  { id: 'FunAudioLLM/CosyVoice2-0.5B:alex', label: 'Alex (male)' },
-  { id: 'FunAudioLLM/CosyVoice2-0.5B:benjamin', label: 'Benjamin (male)' },
-  { id: 'FunAudioLLM/CosyVoice2-0.5B:charles', label: 'Charles (male)' },
-  { id: 'FunAudioLLM/CosyVoice2-0.5B:david', label: 'David (male)' },
-  { id: 'FunAudioLLM/CosyVoice2-0.5B:anna', label: 'Anna (female)' },
-  { id: 'FunAudioLLM/CosyVoice2-0.5B:bella', label: 'Bella (female)' },
-  { id: 'FunAudioLLM/CosyVoice2-0.5B:claire', label: 'Claire (female)' },
-  { id: 'FunAudioLLM/CosyVoice2-0.5B:diana', label: 'Diana (female)' },
+  { id: 'FunAudioLLM/CosyVoice2-0.5B:anna', label: '安娜（女声）' },
+  { id: 'FunAudioLLM/CosyVoice2-0.5B:bella', label: '贝拉（女声·活泼）' },
+  { id: 'FunAudioLLM/CosyVoice2-0.5B:claire', label: '克莱尔（女声）' },
+  { id: 'FunAudioLLM/CosyVoice2-0.5B:diana', label: '戴安娜（女声）' },
+  { id: 'FunAudioLLM/CosyVoice2-0.5B:alex', label: '亚历克斯（男声）' },
+  { id: 'FunAudioLLM/CosyVoice2-0.5B:benjamin', label: '本杰明（男声）' },
+  { id: 'FunAudioLLM/CosyVoice2-0.5B:charles', label: '查尔斯（男声）' },
+  { id: 'FunAudioLLM/CosyVoice2-0.5B:david', label: '大卫（男声）' },
 ].map(voice => ({
   id: voice.id,
   name: voice.label,

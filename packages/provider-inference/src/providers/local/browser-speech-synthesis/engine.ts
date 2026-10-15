@@ -39,16 +39,22 @@ async function waitForVoices(timeoutMs = 2_000): Promise<SpeechSynthesisVoice[]>
   })
 }
 
-/** Lists the device's installed TTS voices, Chinese locales first. */
+/**
+ * Lists the device's installed Chinese TTS voices only.
+ *
+ * NOTICE: non-Chinese device voices are filtered out on purpose — Windows
+ * voices like Microsoft David cannot read Chinese text and users reported
+ * the mixed list as unusable ("English I cannot read"). If the device has
+ * no Chinese voice the list comes back empty and the validation probe
+ * tells the user to install one.
+ * Removal condition: when a language preference control is added.
+ */
 export async function listSystemVoices(): Promise<Array<{ lang: string, name: string, voiceURI: string }>> {
   const voices = await waitForVoices()
   return voices
+    .filter(voice => /^(?:zh|cmn|yue)/i.test(voice.lang))
     .map(voice => ({ lang: voice.lang, name: voice.name, voiceURI: voice.voiceURI }))
-    .sort((a, b) => {
-      const aZh = a.lang.toLowerCase().startsWith('zh') ? 0 : 1
-      const bZh = b.lang.toLowerCase().startsWith('zh') ? 0 : 1
-      return aZh - bZh || a.name.localeCompare(b.name)
-    })
+    .sort((a, b) => a.name.localeCompare(b.name))
 }
 
 /** Builds a minimal 16-bit PCM mono WAV of near-silence. */

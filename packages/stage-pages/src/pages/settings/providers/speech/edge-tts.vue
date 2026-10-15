@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import type { SpeechProvider } from '@xsai-ext/providers/utils'
 
+import Alert from '@proj-airi/stage-ui/components/scenarios/misc/alert.vue'
+
 import {
   SpeechPlayground,
   SpeechProviderSettings,
@@ -9,7 +11,6 @@ import { useProviderValidation } from '@proj-airi/stage-ui/composables/use-provi
 import { useSpeechStore } from '@proj-airi/stage-ui/stores/modules/speech'
 import { useProviderConfigStore } from '@proj-airi/stage-ui/stores/providers/config'
 import { useProviderStore } from '@proj-airi/stage-ui/stores/providers/provider'
-import { Alert } from '@proj-airi/ui'
 import { computed, onMounted } from 'vue'
 import { useI18n } from 'vue-i18n'
 

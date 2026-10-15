@@ -86,6 +86,12 @@ components.d.ts
 **/public/assets/js/*
 **/assets/live2d/models/*
 **/assets/vrm/models/*
+# NOTICE: the preset Hiyori zips are vendored so builds never depend on
+# dist.ayaka.moe availability (its reachability from CI and mainland
+# networks is unreliable). Remove the exceptions if the download step
+# becomes dependable again.
+!packages/stage-ui/src/assets/live2d/models/hiyori_pro_zh.zip
+!packages/stage-ui/src/assets/live2d/models/hiyori_free_zh.zip
 
 # Serving fonts locally
 **/public/assets/fonts/

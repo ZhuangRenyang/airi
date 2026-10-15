@@ -111,6 +111,11 @@ export function defineEdgeTtsProvider(): ProviderDefinition<EdgeTtsConfig, 'edge
     id: 'edge-tts',
     name: 'Edge TTS (Microsoft)',
 
+    // The endpoint is unauthenticated. Declaring this keeps the generic
+    // settings UI from demanding an API key and keeps validation clickable
+    // with an empty key field.
+    requiresCredentials: false,
+
     nameLocalize: ({ t }) => t(`settings.pages.providers.provider.${'edge-tts'}.title`),
 
     tasks: ['text-to-speech'],

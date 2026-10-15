@@ -64,24 +64,26 @@ const CHINESE_VOICE_DISPLAY_NAMES: Array<[RegExp, string]> = [
 ]
 
 /**
- * Lists the device's installed Chinese TTS voices only.
+ * Lists the device's installed TTS voices with Chinese voices first.
  *
- * NOTICE: non-Chinese device voices are filtered out on purpose — Windows
- * voices like Microsoft David cannot read Chinese text and users reported
- * the mixed list as unusable ("English I cannot read"). If the device has
- * no Chinese voice the list comes back empty and the validation probe
- * tells the user to install one.
- * Removal condition: when a language preference control is added.
+ * NOTICE: every device voice is returned — a hard language filter left
+ * users whose Windows lacks the Chinese TTS language pack with an empty
+ * list and no way forward. The settings page sorts Chinese first, maps
+ * well-known voices to Chinese labels, and the validation probe tells
+ * users how to add a Chinese voice when none exists.
  */
 export async function listSystemVoices(): Promise<Array<{ lang: string, name: string, voiceURI: string }>> {
   const voices = await waitForVoices()
   return voices
-    .filter(voice => /^(?:zh|cmn|yue)/i.test(voice.lang))
     .map((voice) => {
       const friendly = CHINESE_VOICE_DISPLAY_NAMES.find(([pattern]) => pattern.test(voice.name))
       return { lang: voice.lang, name: friendly ? friendly[1] : voice.name, voiceURI: voice.voiceURI }
     })
-    .sort((a, b) => a.name.localeCompare(b.name, 'zh-Hans-CN'))
+    .sort((a, b) => {
+      const aZh = /^(?:zh|cmn|yue)/i.test(a.lang) ? 0 : 1
+      const bZh = /^(?:zh|cmn|yue)/i.test(b.lang) ? 0 : 1
+      return aZh - bZh || a.name.localeCompare(b.name, 'zh-Hans-CN')
+    })
 }
 
 /** Builds a minimal 16-bit PCM mono WAV of near-silence. */

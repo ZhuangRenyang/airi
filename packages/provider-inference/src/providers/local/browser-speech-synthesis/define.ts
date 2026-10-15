@@ -117,14 +117,19 @@ export function defineBrowserSpeechSynthesisProvider(): ProviderDefinition<Brows
           validator: async () => {
             const voices = await listSystemVoices()
             if (voices.length === 0) {
-              const reason = 'No system TTS voices found on this device.\n\nOn Android, check that a TTS engine (e.g. Google Speech Services) is installed and set as the default.'
+              const reason = 'No system TTS voices found on this device.\n\nWindows: Settings > Time & Language > Speech > Add voices > Chinese (Simplified, China).\nAndroid: install a TTS engine (e.g. Google Speech Services or iFlytek) and set it as the default.'
               return { errors: [{ error: new Error(reason) }], reason, reasonKey: '', valid: false }
             }
 
-            const zhCount = voices.filter(voice => voice.lang.toLowerCase().startsWith('zh')).length
+            const zhCount = voices.filter(voice => /^(?:zh|cmn|yue)/i.test(voice.lang)).length
+            if (zhCount === 0) {
+              const reason = `Found ${voices.length} voices but none speaks Chinese.\n\nWindows: Settings > Time & Language > Speech > Add voices > Chinese (Simplified, China), then re-validate. Non-Chinese voices cannot read Chinese text properly.`
+              return { errors: [{ error: new Error(reason) }], reason, reasonKey: '', valid: false }
+            }
+
             return {
               errors: [],
-              reason: zhCount > 0 ? '' : `No Chinese voice found on this device (${voices.length} voices total). Non-Chinese voices will read Chinese text poorly.\n\nOn Android, install a TTS engine with Chinese support (e.g. Google Speech Services).`,
+              reason: '',
               reasonKey: '',
               valid: true,
             }

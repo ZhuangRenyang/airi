@@ -10,6 +10,7 @@ import { useProviderValidation } from '@proj-airi/stage-ui/composables/use-provi
 import { useSpeechStore } from '@proj-airi/stage-ui/stores/modules/speech'
 import { useProviderConfigStore } from '@proj-airi/stage-ui/stores/providers/config'
 import { useProviderStore } from '@proj-airi/stage-ui/stores/providers/provider'
+import { cloneDeep } from 'es-toolkit'
 import { computed, onMounted } from 'vue'
 import { useI18n } from 'vue-i18n'
 
@@ -39,7 +40,9 @@ async function handleGenerateSpeech(input: string, voiceId: string, _useSSML: bo
     'default',
     input,
     voiceId,
-    providerConfigStore.getProviderConfig(providerId),
+    // Clone nested reactive values before the synchronized action sends
+    // its arguments over the BroadcastChannel (structuredClone).
+    cloneDeep(providerConfigStore.getProviderConfig(providerId)),
   )
 }
 

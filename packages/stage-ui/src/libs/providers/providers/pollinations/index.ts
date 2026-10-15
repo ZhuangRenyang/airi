@@ -59,6 +59,9 @@ export const providerPollinations = defineProvider<PollinationsConfig, 'pollinat
       // (https://text.pollinations.ai/models), so ModelList validation would
       // probe the wrong URL. Connectivity + ChatCompletions cover the flow.
       checks: [ProviderValidationCheck.Connectivity, ProviderValidationCheck.ChatCompletions],
+      // Pollinations works without an API key on the anonymous tier, so the
+      // key-presence check must not fail validation.
+      skipApiKeyCheck: true,
     }),
   },
 })

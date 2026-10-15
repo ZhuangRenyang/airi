@@ -58,6 +58,7 @@ const providerAttributesById = {
   'browser-local-audio-speech': freeLocal,
   'browser-local-audio-transcription': freeLocal,
   'browser-web-speech-api': freeLocal,
+  'browser-speech-synthesis': freeLocal,
   'byteplus': paidCloud,
   'byteplus-coding-plan': paidCloud,
   'cerebras-ai': paidCloud,

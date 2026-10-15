@@ -1786,6 +1786,13 @@ pages:
               label: Intonation
         callout_origin_title: Reaching the engine from a browser
         callout_origin: A browser reaches an engine on this machine only. For an engine on another machine, use the desktop application. The engine also has to accept this site, which you set with --cors_policy_mode all, or with --allow_origin and this address.
+      browser-speech-synthesis:
+        description: Speaks with the voices installed on your device. Free, offline, no API key.
+        title: System Voice (Browser)
+        fields:
+          voiceCount: '{count} system voices available.'
+        playground:
+          default-text: Hello! This text is spoken by your device's own voice.
       edge-tts:
         description: Free Microsoft Edge read-aloud voices, no API key required. Chinese, English and Japanese.
         title: Edge TTS (Microsoft)

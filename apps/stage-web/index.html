@@ -45,6 +45,38 @@
           document.documentElement.style.setProperty('--chromatic-hue', hue.toString())
       })()
     </script>
+    <script>
+      ;(function () {
+        try {
+          if (!('serviceWorker' in navigator))
+            return
+          // NOTICE: one-time migration for the prompt-mode service worker left
+          // by earlier builds. It serves stale precaches and, combined with a
+          // missed update toast on mobile, kept visitors on weeks-old UI.
+          // Runs at most once per device: after this clears the old
+          // registration and caches, the app's autoUpdate registration takes
+          // over normally. Removal condition: a few weeks after deployment,
+          // once all repeat visitors have migrated.
+          if (localStorage.getItem('airi-sw-migrated') === '1')
+            return
+          localStorage.setItem('airi-sw-migrated', '1')
+          navigator.serviceWorker.getRegistrations().then((registrations) => {
+            if (registrations.length === 0)
+              return
+            Promise.all(registrations.map(registration => registration.unregister()))
+              .then(() => {
+                if (!window.caches)
+                  return undefined
+                return caches.keys().then(keys => Promise.all(keys.map(key => caches.delete(key))))
+              })
+              .then(() => {
+                window.location.reload()
+              })
+          })
+        }
+        catch {}
+      })()
+    </script>
     <style>
       #boot-splash {
         position: fixed;

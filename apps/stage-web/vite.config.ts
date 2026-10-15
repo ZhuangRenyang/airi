@@ -217,7 +217,12 @@ export default defineConfig({
     ...(env.TARGET_HUGGINGFACE_SPACE
       ? []
       : [VitePWA({
-          registerType: 'prompt',
+          // NOTICE: autoUpdate instead of the upstream 'prompt': this fork's
+          // mobile visitors kept serving stale cached builds (including the
+          // removed sign-in UI) because the update toast was easy to miss on
+          // phones. Removal condition: restore when update prompting is
+          // wanted again.
+          registerType: 'autoUpdate',
           includeAssets: ['favicon.svg', 'apple-touch-icon.png'],
           manifest: {
             name: 'AIRI',

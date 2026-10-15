@@ -47,7 +47,7 @@ const settings = computed({
 })
 
 const language = computed({
-  get: () => typeof settings.value.language === 'string' ? settings.value.language : 'en-US',
+  get: () => typeof settings.value.language === 'string' ? settings.value.language : 'zh-CN',
   set: (value) => {
     if (!providers.value[providerId])
       providers.value[providerId] = {}
@@ -74,25 +74,28 @@ const interimResults = computed({
 })
 
 // Common language options for Web Speech API
+// NOTICE: this fork targets Chinese users — zh options lead the list and
+// the default recognition language is zh-CN.
 const languageOptions = [
+  { label: '中文（普通话）', value: 'zh-CN' },
+  { label: '中文（粤语）', value: 'zh-HK' },
+  { label: '中文（台湾）', value: 'zh-TW' },
   { label: 'English (US)', value: 'en-US' },
   { label: 'English (UK)', value: 'en-GB' },
-  { label: 'Spanish', value: 'es-ES' },
-  { label: 'French', value: 'fr-FR' },
-  { label: 'German', value: 'de-DE' },
-  { label: 'Italian', value: 'it-IT' },
-  { label: 'Portuguese', value: 'pt-BR' },
-  { label: 'Japanese', value: 'ja-JP' },
-  { label: 'Korean', value: 'ko-KR' },
-  { label: 'Chinese (Simplified)', value: 'zh-CN' },
-  { label: 'Chinese (Traditional)', value: 'zh-TW' },
-  { label: 'Russian', value: 'ru-RU' },
+  { label: '日本語', value: 'ja-JP' },
+  { label: '한국어', value: 'ko-KR' },
+  { label: 'Español', value: 'es-ES' },
+  { label: 'Français', value: 'fr-FR' },
+  { label: 'Deutsch', value: 'de-DE' },
+  { label: 'Italiano', value: 'it-IT' },
+  { label: 'Português', value: 'pt-BR' },
+  { label: 'Русский', value: 'ru-RU' },
 ]
 
 function ensureProviderSettings() {
   if (!providers.value[providerId]) {
     providers.value[providerId] = {
-      language: 'en-US',
+      language: 'zh-CN',
       continuous: true,
       interimResults: true,
     }
@@ -101,7 +104,7 @@ function ensureProviderSettings() {
 
 function handleResetSettings() {
   providers.value[providerId] = {
-    language: 'en-US',
+    language: 'zh-CN',
     continuous: true,
     interimResults: true,
   }

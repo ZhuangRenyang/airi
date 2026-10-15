@@ -4,7 +4,7 @@ import { defineProvider } from '../../registry'
 import { createWebSpeechAPIProvider } from './provider'
 
 const webSpeechApiConfigSchema = z.object({
-  language: z.string().default('en-US'),
+  language: z.string().default('zh-CN'),
   continuous: z.boolean().default(true),
   interimResults: z.boolean().default(true),
   maxAlternatives: z.number().int().positive().default(1),

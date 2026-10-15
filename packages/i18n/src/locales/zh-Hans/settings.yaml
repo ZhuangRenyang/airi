@@ -1846,31 +1846,6 @@ pages:
           validation:
             error-missing-api-key: 需要填写 API Key 才能用哦！
         title: ElevenLabs (11labs)
-      kokoro-local:
-        description: 基于 Kokoro-82M 的本地语音合成
-        fields:
-          field:
-            model:
-              label: 模型选择
-              description: 较小的模型加载更快，但质量可能略有下降。
-        models:
-          fp32-webgpu:
-            description: >-
-              基于 WebGPU 的全精度模型 - 建议在支持的设备上使用
-          fp32:
-            description: 全精度模型
-          fp16:
-            description: 半精度量化
-          q8:
-            description: 8-bit 量化
-          q4:
-            description: 4-bit 量化
-          q4f16:
-            description: 4-bit 量化 (FP16)
-        playground:
-          default-text: 您好！这是 Kokoro 文本转语音（TTS）系统的测试。
-          title: 实验平台
-        title: Kokoro TTS (本地)
       fireworks:
         description: Fireworks.ai
       microsoft-speech:

@@ -78,6 +78,7 @@ describe('migrated provider definitions', () => {
       'comet-api-transcription',
       'mimo-audio-transcription',
       'player2-speech',
+      'siliconflow-speech',
       'google-gemini-audio-speech',
       'voicevox',
       'aivis-speech',

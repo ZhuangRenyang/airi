@@ -104,6 +104,7 @@ const providerAttributesById = {
   'perplexity-ai': paidCloud,
   'player2-speech': freeLocal,
   'pollinations': freeCloud,
+  'siliconflow-speech': paidCloud,
   'speech-noop': false,
   'together-ai': paidCloud,
   'voicevox': freeLocal,

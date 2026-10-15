@@ -1715,6 +1715,12 @@ pages:
               label: 情感表现强度
         callout_origin_title: 从浏览器连接引擎
         callout_origin: 浏览器只能连接本机的引擎。连接其他机器的引擎时，请使用桌面应用。引擎还必须允许此网站访问，可在 10101 端口的设置页面中配置。
+      siliconflow-speech:
+        description: siliconflow.cn
+        title: 硅基流动（SiliconFlow）
+        registerHint: 还没有 API Key？前往 cloud.siliconflow.cn 注册即可领取免费额度，然后把密钥粘贴到上方的 API Key 输入框。
+        playground:
+          default-text: 你好！我是 AIRI，很高兴见到你。
       speech-noop:
         title: 无
         description: 不使用语音合成

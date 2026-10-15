@@ -52,7 +52,6 @@ import { providerXAI } from './cloud/xai'
 import { providerZai } from './cloud/zai'
 import { providerBrowserSpeechSynthesis } from './local/browser-speech-synthesis'
 import { providerBrowserWebSpeechApi } from './local/browser-web-speech-api'
-import { providerEdgeTts } from './local/edge-tts'
 import { providerIndexTtsVllm } from './local/index-tts-vllm'
 import { providerLmStudio } from './local/lm-studio'
 import { providerOllama } from './local/ollama'
@@ -145,7 +144,6 @@ export const portableProviderDefinitions = eraseProviderDefinitions(
   providerPlayer2Speech,
   providerSpeechNoop,
   providerAivisSpeech,
-  providerEdgeTts,
   providerVoicevox,
 )
 

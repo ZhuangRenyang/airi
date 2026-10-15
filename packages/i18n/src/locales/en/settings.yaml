@@ -1793,11 +1793,6 @@ pages:
           voiceCount: '{count} system voices available.'
         playground:
           default-text: Hello! This text is spoken by your device's own voice.
-      edge-tts:
-        description: Free Microsoft Edge read-aloud voices, no API key required. Chinese, English and Japanese.
-        title: Edge TTS (Microsoft)
-        playground:
-          default-text: Hello! This is a test of the Microsoft Edge text to speech system.
       aivis-speech:
         description: aivis-project.com
         title: AivisSpeech

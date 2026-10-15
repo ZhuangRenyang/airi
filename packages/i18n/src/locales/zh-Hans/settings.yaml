@@ -1707,11 +1707,6 @@ pages:
           voiceCount: 检测到 {count} 个系统语音。
         playground:
           default-text: 你好！这段文字将由你设备的内置语音朗读。
-      edge-tts:
-        description: 微软 Edge 朗读引擎，免费且无需 API Key。支持中文、英文和日文音色。
-        title: Edge TTS（微软）
-        playground:
-          default-text: 你好！这是微软 Edge 文本转语音（TTS）系统的测试。
       aivis-speech:
         fields:
           field:

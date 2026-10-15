@@ -53,6 +53,26 @@ export const providerPollinations = defineProvider<PollinationsConfig, 'pollinat
   validationRequiredWhen(config) {
     return !!config.baseUrl?.trim()
   },
+  extraMethods: {
+    // NOTICE: Pollinations exposes its models list outside the
+    // OpenAI-compatible base URL, and the free tier roster is small and
+    // stable, so the catalog is hardcoded instead of probed at runtime.
+    // Removal condition: when a definition-level model discovery endpoint
+    // under the base URL becomes available.
+    listModelCatalog: async () => ({
+      available: true,
+      defaultModel: 'openai',
+      models: [
+        { id: 'openai', name: 'OpenAI GPT-4o mini', provider: 'pollinations', description: 'Default free model' },
+        { id: 'openai-fast', name: 'OpenAI GPT-4o mini (fast)', provider: 'pollinations' },
+        { id: 'openai-large', name: 'OpenAI GPT-4o', provider: 'pollinations' },
+        { id: 'mistral', name: 'Mistral Small', provider: 'pollinations' },
+        { id: 'qwen-coder', name: 'Qwen 2.5 Coder', provider: 'pollinations' },
+        { id: 'llama', name: 'Llama', provider: 'pollinations' },
+        { id: 'deepseek', name: 'DeepSeek', provider: 'pollinations' },
+      ],
+    }),
+  },
   validators: {
     ...createOpenAICompatibleValidators({
       // The models list endpoint lives outside the OpenAI-compatible base URL

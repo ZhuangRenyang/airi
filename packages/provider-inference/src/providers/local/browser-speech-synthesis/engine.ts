@@ -40,6 +40,30 @@ async function waitForVoices(timeoutMs = 2_000): Promise<SpeechSynthesisVoice[]>
 }
 
 /**
+ * Friendly Chinese names for the well-known system voices. Device-reported
+ * names are English even for Chinese voices on Windows ("Microsoft Huihui -
+ * Chinese (Simplified)"), and users cannot read them. Unknown voices keep
+ * their device name.
+ */
+const CHINESE_VOICE_DISPLAY_NAMES: Array<[RegExp, string]> = [
+  [/huihui/i, '微软慧慧（女声）'],
+  [/yaoyao/i, '微软瑶瑶（女声）'],
+  [/kangkang/i, '微软康康（男声）'],
+  [/yunyang/i, '微软云扬（男声·新闻）'],
+  [/xiaoxiao/i, '微软晓晓（女声）'],
+  [/yunxi/i, '微软云希（男声）'],
+  [/tingting|ting-ting/i, '婷婷（女声）'],
+  [/meijia/i, '美佳（女声）'],
+  [/sinji/i, '善怡（女声·粤语）'],
+  [/sin-ji/i, '善怡（女声·粤语）'],
+  [/google.*(普通话|mandarin|chinese)/i, '谷歌普通话（女声）'],
+  [/google.*粤|google.*cantonese/i, '谷歌粤语（女声）'],
+  [/xiaowan/i, '小婉（女声）'],
+  [/xiaochen/i, '小陈（女声）'],
+  [/yunhao/i, '云皓（男声）'],
+]
+
+/**
  * Lists the device's installed Chinese TTS voices only.
  *
  * NOTICE: non-Chinese device voices are filtered out on purpose — Windows
@@ -53,8 +77,11 @@ export async function listSystemVoices(): Promise<Array<{ lang: string, name: st
   const voices = await waitForVoices()
   return voices
     .filter(voice => /^(?:zh|cmn|yue)/i.test(voice.lang))
-    .map(voice => ({ lang: voice.lang, name: voice.name, voiceURI: voice.voiceURI }))
-    .sort((a, b) => a.name.localeCompare(b.name))
+    .map((voice) => {
+      const friendly = CHINESE_VOICE_DISPLAY_NAMES.find(([pattern]) => pattern.test(voice.name))
+      return { lang: voice.lang, name: friendly ? friendly[1] : voice.name, voiceURI: voice.voiceURI }
+    })
+    .sort((a, b) => a.name.localeCompare(b.name, 'zh-Hans-CN'))
 }
 
 /** Builds a minimal 16-bit PCM mono WAV of near-silence. */

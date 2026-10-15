@@ -422,11 +422,14 @@ allowBuilds:
   '@ffmpeg-installer/darwin-x64': true
   '@ffmpeg-installer/linux-arm64': true
   '@ffmpeg-installer/linux-x64': true
+  '@napi-rs/image': false # [web-only fork] native image codecs are unused; skipping avoids CI ERR_PNPM_IGNORED_BUILDS
   '@parcel/watcher': true
   '@prisma/client': false
   better-sqlite3: false
   bufferutil: true
+  canvas: false # [web-only fork] node-canvas binary is unused in browser builds
   core-js: true
+  electron: false # [web-only fork] Electron binaries (~100MB) are unused; the package lingers via kept electron-* libs
   electron-winstaller: true
   es5-ext: true
   esbuild: true

@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type { SpeechProvider } from '@xsai-ext/providers/utils'
 
-import Alert from '@proj-airi/stage-ui/components/scenarios/misc/alert.vue'
+import Alert from '@proj-airi/stage-ui/components/misc/alert.vue'
 
 import {
   SpeechPlayground,

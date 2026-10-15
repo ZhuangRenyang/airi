@@ -11,10 +11,10 @@ import { useI18n } from 'vue-i18n'
 import onboardingLogo from '../../../../assets/onboarding.avif'
 
 import { AIRI_FLUX_URL, AIRI_TERMS_URL } from '../../../../constants/public-links'
-// NOTICE: auth/onboarding stores return with the login action button; see the
+// NOTICE: auth store returns with the login action button; see the
 // template below. Removal condition: restore when sign-in is available here.
 // import { useAuthStore } from '../../../../stores/auth'
-// import { useOnboardingStore } from '../../../../stores/onboarding'
+import { useOnboardingStore } from '../../../../stores/onboarding'
 import { useSettingsGeneral } from '../../../../stores/settings'
 
 interface Props {
@@ -25,7 +25,7 @@ interface Props {
 const props = defineProps<Props>()
 const { t } = useI18n()
 // const authStore = useAuthStore()
-// const onboardingStore = useOnboardingStore()
+const onboardingStore = useOnboardingStore()
 const settingsStore = useSettingsGeneral()
 const { language } = storeToRefs(settingsStore)
 
@@ -46,6 +46,10 @@ const languages = computed(() => {
 
 function handleLocalSetup() {
   props.onNext()
+}
+
+function handleSkip() {
+  onboardingStore.markSetupSkipped()
 }
 </script>
 
@@ -154,6 +158,19 @@ function handleLocalSetup() {
         size="lg"
         :label="t('settings.dialogs.onboarding.setupWithoutSigningIn')"
         @click="handleLocalSetup"
+      />
+      <Button
+        v-motion="{
+          initial: { opacity: 0 },
+          enter: { opacity: 1 },
+          duration: 500,
+          delay: 300,
+        }"
+        variant="secondary"
+        :outline="false"
+        :class="['bg-transparent! text-neutral-500 dark:bg-transparent! dark:text-neutral-400']"
+        :label="t('settings.dialogs.onboarding.skipAction')"
+        @click="handleSkip"
       />
     </div>
     <nav

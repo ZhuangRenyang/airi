@@ -67,6 +67,7 @@ const providerAttributesById = {
   'comet-api-transcription': paidCloud,
   'deepgram-tts': paidCloud,
   'deepseek': paidCloud,
+  'edge-tts': freeCloud,
   'elevenlabs': paidCloud,
   'featherless-ai': paidCloud,
   'fireworks-ai': paidCloud,

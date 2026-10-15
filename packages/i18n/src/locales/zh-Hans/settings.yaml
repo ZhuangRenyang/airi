@@ -1700,6 +1700,11 @@ pages:
               label: 语调
         callout_origin_title: 从浏览器连接引擎
         callout_origin: 浏览器只能连接本机的引擎。连接其他机器的引擎时，请使用桌面应用。引擎还必须允许此网站访问，可使用 --cors_policy_mode all，或使用 --allow_origin 指定此网站地址。
+      edge-tts:
+        description: 微软 Edge 朗读引擎，免费且无需 API Key。支持中文、英文和日文音色。
+        title: Edge TTS（微软）
+        playground:
+          default-text: 你好！这是微软 Edge 文本转语音（TTS）系统的测试。
       aivis-speech:
         fields:
           field:

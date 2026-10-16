@@ -122,6 +122,36 @@ export default defineConfig({
     // Sourcemaps cost build memory and ~10 MB of output; disabled for the
     // memory-limited free-tier builders. Flip back on when debugging locally.
     sourcemap: false,
+    rollupOptions: {
+      output: {
+        // Grouping chunks keeps the final rendering pass from holding one
+        // monolithic module graph in memory — the free-tier builders OOM
+        // exactly there. Splitting by dependency family streams the output
+        // out in smaller pieces.
+        manualChunks(id: string) {
+          if (!id.includes('node_modules')) {
+            if (id.includes('packages/stage-ui'))
+              return 'app-stage-ui'
+            if (id.includes('packages/stage-pages'))
+              return 'app-stage-pages'
+            if (id.includes('packages/provider-inference'))
+              return 'app-provider-inference'
+            return undefined
+          }
+          if (id.includes('onnxruntime'))
+            return 'vendor-onnxruntime'
+          if (id.includes('mediapipe'))
+            return 'vendor-mediapipe'
+          if (id.includes('three'))
+            return 'vendor-three'
+          if (id.includes('pixi') || id.includes('live2d'))
+            return 'vendor-pixi-live2d'
+          if (id.includes('/vue') || id.includes('vue/') || id.includes('pinia') || id.includes('@vueuse'))
+            return 'vendor-vue'
+          return 'vendor-misc'
+        },
+      },
+    },
   },
   worker: {
     format: 'es',

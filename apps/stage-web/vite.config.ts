@@ -119,7 +119,9 @@ export default defineConfig({
         },
       },
     },
-    sourcemap: true,
+    // Sourcemaps cost build memory and ~10 MB of output; disabled for the
+    // memory-limited free-tier builders. Flip back on when debugging locally.
+    sourcemap: false,
   },
   worker: {
     format: 'es',

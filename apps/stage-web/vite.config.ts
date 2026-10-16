@@ -295,7 +295,14 @@ export default defineConfig({
 
     // Web exposes pinned remote models. The browser downloads only the selected model.
     // The wake word and voiceprint models download when their features first prepare.
-    Sherpaw({ models: [paraformerBilingualZhEn, zipformerMultilingual, xAsrBilingualZhEnInt8, kwsModel, speakerModel], cacheDir: sharedCacheDir }),
+    // NOTICE: huggingface.co is unreachable from mainland networks, so the
+    // runtime model downloads go through the hf-mirror.com mirror, which the
+    // plugin supports natively.
+    Sherpaw({
+      models: [paraformerBilingualZhEn, zipformerMultilingual, xAsrBilingualZhEnInt8, kwsModel, speakerModel],
+      cacheDir: sharedCacheDir,
+      endpoint: 'https://hf-mirror.com',
+    }),
     DownloadLive2DSDK(),
     Download('https://dist.ayaka.moe/live2d-models/hiyori_free_zh.zip', 'hiyori_free_zh.zip', 'live2d/models', { parentDir: stageUIAssetsRoot, cacheDir: sharedCacheDir }),
     Download('https://dist.ayaka.moe/live2d-models/hiyori_pro_zh.zip', 'hiyori_pro_zh.zip', 'live2d/models', { parentDir: stageUIAssetsRoot, cacheDir: sharedCacheDir }),

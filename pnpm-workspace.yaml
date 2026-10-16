@@ -266,7 +266,6 @@ catalog:
   animejs: ^4.5.0
   async-mutex: 0.5.0
   better-auth: 1.6.25
-  builder-util-runtime: ^9.7.0
   bumpp: ^12.2.1
   cac: ^7.0.0
   clustr: ^1.0.2
@@ -350,7 +349,6 @@ catalog:
   sponsorkit: 17.1.0
   sponsors-svg: ^0.3.0
   srvx: ^0.12.7
-  std-env: ^4.2.0
   stripe: ^22.5.0
   superjson: ^2.2.6
   taze: ^21.1.0
@@ -443,6 +441,16 @@ allowBuilds:
   spawn-sync: true
   utf-8-validate: true
   vue-demi: true
+# NOTICE: heavy server-side dependencies whose build scripts download
+# large native binaries the web build never uses. Skipping them keeps
+# CI installs small; remove any entry if a workspace package actually
+# needs its native binary at runtime.
+neverBuiltDependencies:
+  - onnxruntime-node
+  - sharp
+  - '@anthropic-ai/claude-code'
+  - bufferutil
+  - utf-8-validate
 packageExtensions:
   '@formkit/auto-animate':
     peerDependencies:

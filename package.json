@@ -12,7 +12,7 @@
   },
   "license": "MIT",
   "scripts": {
-    "postinstall": "pnpm exec simple-git-hooks && pnpm run build:packages",
+    "postinstall": "pnpm exec simple-git-hooks",
     "dev": "pnpm -r -F @proj-airi/stage-web dev",
     "dev:ui": "pnpm -rF @proj-airi/stage-ui run story:dev",
     "dev:web": "pnpm -rF @proj-airi/stage-web run dev",

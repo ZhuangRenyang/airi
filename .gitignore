@@ -92,6 +92,8 @@ components.d.ts
 # becomes dependable again.
 !packages/stage-ui/src/assets/live2d/models/hiyori_pro_zh.zip
 !packages/stage-ui/src/assets/live2d/models/hiyori_free_zh.zip
+!apps/stage-web/public/assets/live2d/models/hiyori_pro_zh.zip
+!apps/stage-web/public/assets/live2d/models/hiyori_free_zh.zip
 
 # Serving fonts locally
 **/public/assets/fonts/

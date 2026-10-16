@@ -1786,6 +1786,17 @@ pages:
               label: Intonation
         callout_origin_title: Reaching the engine from a browser
         callout_origin: A browser reaches an engine on this machine only. For an engine on another machine, use the desktop application. The engine also has to accept this site, which you set with --cors_policy_mode all, or with --allow_origin and this address.
+      baidu-tts:
+        description: bce.baidu.com
+        title: Baidu Cloud TTS
+        registerHint: No credentials yet. Register at console.bce.baidu.com, create a Speech Technology application, then paste the API Key and Secret Key here.
+        fields:
+          secretKey:
+            label: Secret Key
+            description: The Secret Key of your Baidu speech application
+            placeholder: Paste your Secret Key
+        playground:
+          default-text: 你好！我是 AIRI，很高兴见到你。
       browser-speech-synthesis:
         description: Speaks with the voices installed on your device. Free, offline, no API key.
         title: System Voice (Browser)
@@ -2092,6 +2103,25 @@ pages:
       xai:
         description: x.ai
         title: xAI
+      xfyun-tts:
+        description: xfyun.cn
+        title: iFlytek TTS
+        registerHint: No credentials yet. Register at xfyun.cn, activate the Online Speech Synthesis service, then paste the AppID, APIKey and APISecret here.
+        fields:
+          appId:
+            label: AppID
+            description: The AppID of your iFlytek speech application
+            placeholder: Paste your AppID
+          apiKey:
+            label: APIKey
+            description: The APIKey of your iFlytek speech application
+            placeholder: Paste your APIKey
+          apiSecret:
+            label: APISecret
+            description: The APISecret of your iFlytek speech application
+            placeholder: Paste your APISecret
+        playground:
+          default-text: 你好！我是 AIRI，很高兴见到你。
       zai:
         description: z.ai
         title: Z.ai

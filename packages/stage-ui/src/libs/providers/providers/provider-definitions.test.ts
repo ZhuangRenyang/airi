@@ -79,6 +79,8 @@ describe('migrated provider definitions', () => {
       'mimo-audio-transcription',
       'player2-speech',
       'siliconflow-speech',
+      'baidu-tts',
+      'xfyun-tts',
       'google-gemini-audio-speech',
       'voicevox',
       'aivis-speech',

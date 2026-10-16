@@ -1700,6 +1700,17 @@ pages:
               label: 语调
         callout_origin_title: 从浏览器连接引擎
         callout_origin: 浏览器只能连接本机的引擎。连接其他机器的引擎时，请使用桌面应用。引擎还必须允许此网站访问，可使用 --cors_policy_mode all，或使用 --allow_origin 指定此网站地址。
+      baidu-tts:
+        description: bce.baidu.com
+        title: 百度智能云（语音合成）
+        registerHint: 还没有凭证？前往 console.bce.baidu.com 注册并创建「语音技术」应用，然后把 API Key 和 Secret Key 粘贴到这里。
+        fields:
+          secretKey:
+            label: Secret Key
+            description: 百度语音应用的 Secret Key
+            placeholder: 粘贴你的 Secret Key
+        playground:
+          default-text: 你好！我是 AIRI，很高兴见到你。
       browser-speech-synthesis:
         description: 使用设备上已安装的语音朗读。免费、离线、无需 API Key。
         title: 系统语音（浏览器朗读）
@@ -1917,6 +1928,25 @@ pages:
         title: 火山引擎 Coding Plan
       xai:
         description: X.AI
+      xfyun-tts:
+        description: xfyun.cn
+        title: 讯飞开放平台（语音合成）
+        registerHint: 还没有凭证？前往 xfyun.cn 注册并开通「在线语音合成」服务，然后把 AppID、APIKey、APISecret 粘贴到这里。
+        fields:
+          appId:
+            label: AppID
+            description: 讯飞语音应用的 AppID
+            placeholder: 粘贴你的 AppID
+          apiKey:
+            label: APIKey
+            description: 讯飞语音应用的 APIKey
+            placeholder: 粘贴你的 APIKey
+          apiSecret:
+            label: APISecret
+            description: 讯飞语音应用的 APISecret
+            placeholder: 粘贴你的 APISecret
+        playground:
+          default-text: 你好！我是 AIRI，很高兴见到你。
       zai:
         description: 智谱大模型
       aliyun-nls:

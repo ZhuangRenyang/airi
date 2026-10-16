@@ -3,6 +3,7 @@
   "buildCommand": "pnpm run build:web",
   "outputDirectory": "apps/stage-web/dist",
   "rewrites": [
+    { "source": "/proxy/baidu-token", "destination": "https://aip.baidubce.com/oauth/2.0/token" },
     { "source": "/(.*)", "destination": "/index.html" }
   ],
   "headers": [

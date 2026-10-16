@@ -42,6 +42,7 @@ import { providerOpenRouterAI } from './cloud/openrouter-ai'
 import { providerOpenRouterAudioSpeech } from './cloud/openrouter-audio-speech'
 import { providerPerplexityAI } from './cloud/perplexity-ai'
 import { providerSiliconFlowSpeech } from './cloud/siliconflow-speech'
+import { providerSiliconFlowTranscription } from './cloud/siliconflow-transcription'
 import { providerTogetherAI } from './cloud/together-ai'
 import {
   providerAlibabaCloudModelStudio,
@@ -147,6 +148,7 @@ export const portableProviderDefinitions = eraseProviderDefinitions(
   providerPlayer2Speech,
   providerBaiduTts,
   providerSiliconFlowSpeech,
+  providerSiliconFlowTranscription,
   providerXfyunTts,
   providerSpeechNoop,
   providerAivisSpeech,

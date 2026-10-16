@@ -106,6 +106,7 @@ const providerAttributesById = {
   'baidu-tts': paidCloud,
   'pollinations': freeCloud,
   'siliconflow-speech': paidCloud,
+  'siliconflow-transcription': freeCloud,
   'xfyun-tts': paidCloud,
   'speech-noop': false,
   'together-ai': paidCloud,

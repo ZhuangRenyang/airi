@@ -81,6 +81,7 @@ describe('migrated provider definitions', () => {
       'siliconflow-speech',
       'baidu-tts',
       'xfyun-tts',
+      'siliconflow-transcription',
       'google-gemini-audio-speech',
       'voicevox',
       'aivis-speech',

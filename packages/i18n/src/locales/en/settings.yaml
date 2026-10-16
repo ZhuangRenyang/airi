@@ -1823,6 +1823,13 @@ pages:
         registerHint: No API key yet. Register at cloud.siliconflow.cn to get free credits, then paste the key in the API Key field above.
         playground:
           default-text: 你好！我是 AIRI，很高兴见到你。
+      siliconflow-transcription:
+        description: siliconflow.cn
+        title: SiliconFlow
+        registerHint: No API key yet. The same SiliconFlow key you use for TTS works here — SenseVoiceSmall transcription is free.
+        fields:
+          baseUrl:
+            placeholder: https://api.siliconflow.cn/v1/
       speech-noop:
         title: None
         description: No speech output.

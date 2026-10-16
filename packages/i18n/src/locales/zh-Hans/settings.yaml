@@ -1732,6 +1732,13 @@ pages:
         registerHint: 还没有 API Key？前往 cloud.siliconflow.cn 注册即可领取免费额度，然后把密钥粘贴到上方的 API Key 输入框。
         playground:
           default-text: 你好！我是 AIRI，很高兴见到你。
+      siliconflow-transcription:
+        description: siliconflow.cn
+        title: 硅基流动（语音识别）
+        registerHint: 还没有 API Key？与语音合成共用同一个硅基流动密钥 —— SenseVoiceSmall 语音识别完全免费。
+        fields:
+          baseUrl:
+            placeholder: https://api.siliconflow.cn/v1/
       speech-noop:
         title: 无
         description: 不使用语音合成

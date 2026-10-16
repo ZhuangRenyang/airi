@@ -32,14 +32,8 @@ jobs:
       - name: Install dependencies (web subset)
         run: pnpm install --filter @proj-airi/stage-web... --frozen-lockfile
 
-      - name: Build prerequisite packages
-        run: |
-          pnpm --filter @proj-airi/i18n build
-          pnpm --filter @proj-airi/provider-inference build
-          pnpm --filter @proj-airi/vite-plugin-sherpaw build
-
       - name: Build web bundle
-        run: pnpm --filter @proj-airi/stage-web build
+        run: pnpm run build:web
 
       - name: Deploy dist to gh-pages
         uses: peaceiris/actions-gh-pages@v4

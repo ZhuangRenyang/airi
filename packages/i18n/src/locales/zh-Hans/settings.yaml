@@ -1985,6 +1985,25 @@ pages:
             placeholder: 粘贴你的 APISecret
         playground:
           default-text: 你好！我是 AIRI，很高兴见到你。
+      xfyun-super-tts:
+        description: xfyun.cn
+        title: 讯飞开放平台（超拟人语音合成）
+        registerHint: 还没有凭证？前往 xfyun.cn 注册并开通「超拟人语音合成」服务，然后把 AppID、APIKey、APISecret 粘贴到这里。
+        fields:
+          appId:
+            label: AppID
+            description: 讯飞语音应用的 AppID
+            placeholder: 粘贴你的 AppID
+          apiKey:
+            label: APIKey
+            description: 讯飞语音应用的 APIKey
+            placeholder: 粘贴你的 APIKey
+          apiSecret:
+            label: APISecret
+            description: 讯飞语音应用的 APISecret
+            placeholder: 粘贴你的 APISecret
+        playground:
+          default-text: 你好！我是 AIRI，很高兴见到你。
       zai:
         description: 智谱大模型
       aliyun-nls:

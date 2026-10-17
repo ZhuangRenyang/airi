@@ -54,6 +54,7 @@ import {
 import { providerVolcengineCodingPlan } from './cloud/volcengine-coding-plan'
 import { providerXAI } from './cloud/xai'
 import { providerXfyunIat } from './cloud/xfyun-iat'
+import { providerXfyunSuperTts } from './cloud/xfyun-super-tts'
 import { providerXfyunTts } from './cloud/xfyun-tts'
 import { providerZai } from './cloud/zai'
 import { providerBrowserSpeechSynthesis } from './local/browser-speech-synthesis'
@@ -153,6 +154,7 @@ export const portableProviderDefinitions = eraseProviderDefinitions(
   providerSiliconFlowSpeech,
   providerSiliconFlowTranscription,
   providerXfyunTts,
+  providerXfyunSuperTts,
   providerXfyunIat,
   providerSpeechNoop,
   providerAivisSpeech,

@@ -2160,6 +2160,25 @@ pages:
             placeholder: Paste your APISecret
         playground:
           default-text: 你好！我是 AIRI，很高兴见到你。
+      xfyun-super-tts:
+        description: xfyun.cn
+        title: iFlytek Super Smart TTS
+        registerHint: No credentials yet. Register at xfyun.cn, activate the Super Smart Speech Synthesis service, then paste the AppID, APIKey and APISecret here.
+        fields:
+          appId:
+            label: AppID
+            description: The AppID of your iFlytek speech application
+            placeholder: Paste your AppID
+          apiKey:
+            label: APIKey
+            description: The APIKey of your iFlytek speech application
+            placeholder: Paste your APIKey
+          apiSecret:
+            label: APISecret
+            description: The APISecret of your iFlytek speech application
+            placeholder: Paste your APISecret
+        playground:
+          default-text: 你好！我是 AIRI，很高兴见到你。
       zai:
         description: z.ai
         title: Z.ai

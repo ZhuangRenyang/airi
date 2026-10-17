@@ -109,6 +109,7 @@ const providerAttributesById = {
   'siliconflow-speech': paidCloud,
   'siliconflow-transcription': freeCloud,
   'xfyun-tts': paidCloud,
+  'xfyun-super-tts': paidCloud,
   'xfyun-iat': freeCloud,
   'speech-noop': false,
   'together-ai': paidCloud,

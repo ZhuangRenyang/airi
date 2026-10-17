@@ -81,6 +81,7 @@ describe('migrated provider definitions', () => {
       'siliconflow-speech',
       'baidu-tts',
       'xfyun-tts',
+      'xfyun-super-tts',
       'baidu-asr',
       'xfyun-iat',
       'siliconflow-transcription',

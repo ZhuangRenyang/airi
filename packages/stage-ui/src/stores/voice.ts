@@ -105,7 +105,13 @@ export const useVoiceStore = defineStore('voice', () => {
   const { rephrase } = useVoiceRephrase()
   controller.use(
     createVoiceRephrasePlugin({ enabled: () => hearing.rephraseEnabled, rephrase, timeoutMs: VOICE_REPHRASE_TIMEOUT_MS }),
-    { grants: ['transcript-patch'], onError: event => report(event.error) },
+    {
+      grants: ['transcript-patch'],
+      // Label the stage: a rephrase failure is a chat-model reachability
+      // problem, but unlabelled it surfaces as a misleading transcription
+      // error in the hearing status.
+      onError: event => report(new Error(`语音润色失败（需访问聊天模型，转写不受影响）：${errorMessageFrom(event.error) ?? '未知错误'}`)),
+    },
   )
   const { judge } = useVoiceEndJudge()
   controller.use(

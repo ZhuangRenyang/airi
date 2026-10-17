@@ -1830,6 +1830,37 @@ pages:
         fields:
           baseUrl:
             placeholder: https://api.siliconflow.cn/v1/
+      baidu-asr:
+        description: bce.baidu.com
+        title: Baidu Cloud Speech Recognition
+        registerHint: No credentials yet. Enable 语音识别 on your Baidu Speech Technology application at console.bce.baidu.com, then paste the same API Key and Secret Key used for TTS.
+        fields:
+          apiKey:
+            description: The API Key of your Baidu speech application
+          secretKey:
+            label: Secret Key
+            description: The Secret Key of your Baidu speech application
+            placeholder: Paste your Secret Key
+      xfyun-iat:
+        description: xfyun.cn
+        title: iFlytek Speech Dictation
+        registerHint: No credentials yet. Enable the Speech Dictation service on your iFlytek application at xfyun.cn, then paste the same AppID, APIKey and APISecret used for TTS. The free tier grants a daily call allowance.
+        fields:
+          appId:
+            label: AppID
+            description: The AppID of your iFlytek speech application
+            placeholder: Paste your AppID
+          apiKey:
+            label: APIKey
+            description: The APIKey of your iFlytek speech application
+            placeholder: Paste your APIKey
+          apiSecret:
+            label: APISecret
+            description: The APISecret of your iFlytek speech application
+            placeholder: Paste your APISecret
+          language:
+            label: Language
+            description: Recognition language for the dictation service
       speech-noop:
         title: None
         description: No speech output.

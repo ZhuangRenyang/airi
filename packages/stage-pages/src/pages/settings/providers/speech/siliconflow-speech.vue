@@ -61,7 +61,7 @@ async function handleGenerateSpeech(input: string, voiceId: string, _useSSML: bo
     throw new Error('Failed to initialize speech provider')
   }
 
-  const providerConfig = providerConfigStore.getProviderConfig(providerId)
+  const providerConfig = providerStore.getProviderConfig(providerId)
 
   // Clone nested reactive values before the synchronized action sends its
   // arguments over the BroadcastChannel (structuredClone).

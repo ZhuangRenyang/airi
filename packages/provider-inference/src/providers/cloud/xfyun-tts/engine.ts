@@ -15,16 +15,10 @@
  * Removal condition: when iFlytek ends the free web tier.
  */
 
+import { arrayBufferToBase64 } from '../base64'
+
 const XFYUN_TTS_HOST = 'tts-api.xfyun.cn'
 const XFYUN_TTS_PATH = '/v2/tts'
-
-function arrayBufferToBase64(bytes: Uint8Array) {
-  let binary = ''
-  const chunk = 0x8000
-  for (let i = 0; i < bytes.length; i += chunk)
-    binary += String.fromCharCode(...bytes.subarray(i, i + chunk))
-  return btoa(binary)
-}
 
 async function hmacSha256Base64(message: string, secret: string) {
   const encoder = new TextEncoder()

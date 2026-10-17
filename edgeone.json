@@ -1,6 +1,7 @@
 {
   "rewrites": [
-    { "source": "/proxy/baidu-token", "destination": "https://aip.baidubce.com/oauth/2.0/token" }
+    { "source": "/proxy/baidu-token", "destination": "https://aip.baidubce.com/oauth/2.0/token" },
+    { "source": "/proxy/baidu-asr", "destination": "https://vop.baidu.com/server_api" }
   ],
   "headers": [
     {

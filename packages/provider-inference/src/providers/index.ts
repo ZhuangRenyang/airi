@@ -7,6 +7,7 @@ import { providerAnthropic } from './cloud/anthropic'
 import { providerAtlasCloud } from './cloud/atlascloud'
 import { providerAzureAIFoundry } from './cloud/azure-ai-foundry'
 import { providerAzureOpenAI } from './cloud/azure-openai'
+import { providerBaiduAsr } from './cloud/baidu-asr'
 import { providerBaiduTts } from './cloud/baidu-tts'
 import { providerBytePlus } from './cloud/byteplus'
 import { providerBytePlusCodingPlan } from './cloud/byteplus-coding-plan'
@@ -52,6 +53,7 @@ import {
 } from './cloud/unspeech'
 import { providerVolcengineCodingPlan } from './cloud/volcengine-coding-plan'
 import { providerXAI } from './cloud/xai'
+import { providerXfyunIat } from './cloud/xfyun-iat'
 import { providerXfyunTts } from './cloud/xfyun-tts'
 import { providerZai } from './cloud/zai'
 import { providerBrowserSpeechSynthesis } from './local/browser-speech-synthesis'
@@ -147,9 +149,11 @@ export const portableProviderDefinitions = eraseProviderDefinitions(
   providerOllama,
   providerPlayer2Speech,
   providerBaiduTts,
+  providerBaiduAsr,
   providerSiliconFlowSpeech,
   providerSiliconFlowTranscription,
   providerXfyunTts,
+  providerXfyunIat,
   providerSpeechNoop,
   providerAivisSpeech,
   providerVoicevox,

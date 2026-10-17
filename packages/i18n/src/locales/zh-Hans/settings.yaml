@@ -1739,6 +1739,37 @@ pages:
         fields:
           baseUrl:
             placeholder: https://api.siliconflow.cn/v1/
+      baidu-asr:
+        description: bce.baidu.com
+        title: 百度智能云（语音识别）
+        registerHint: 还没有凭证？前往 console.bce.baidu.com 在你的「语音技术」应用中开通语音识别服务，然后粘贴与语音合成相同的 API Key 和 Secret Key。
+        fields:
+          apiKey:
+            description: 百度语音应用的 API Key
+          secretKey:
+            label: Secret Key
+            description: 百度语音应用的 Secret Key
+            placeholder: 粘贴你的 Secret Key
+      xfyun-iat:
+        description: xfyun.cn
+        title: 讯飞开放平台（语音听写）
+        registerHint: 还没有凭证？前往 xfyun.cn 在你的应用中开通「语音听写」服务，然后粘贴与语音合成相同的 AppID、APIKey、APISecret。免费版每天有调用额度。
+        fields:
+          appId:
+            label: AppID
+            description: 讯飞语音应用的 AppID
+            placeholder: 粘贴你的 AppID
+          apiKey:
+            label: APIKey
+            description: 讯飞语音应用的 APIKey
+            placeholder: 粘贴你的 APIKey
+          apiSecret:
+            label: APISecret
+            description: 讯飞语音应用的 APISecret
+            placeholder: 粘贴你的 APISecret
+          language:
+            label: 识别语言
+            description: 听写服务的识别语言
       speech-noop:
         title: 无
         description: 不使用语音合成

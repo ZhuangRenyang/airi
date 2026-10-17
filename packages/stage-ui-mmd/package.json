@@ -40,9 +40,6 @@
     "@proj-airi/stage-shared": "workspace:^",
     "@proj-airi/ui": "workspace:^",
     "@vueuse/core": "catalog:",
-    "@xsai/tool": "catalog:",
-    "culori": "catalog:",
-    "es-toolkit": "catalog:",
     "jszip": "catalog:",
     "localforage": "catalog:",
     "nanoid": "catalog:",
@@ -52,7 +49,6 @@
     "vue": "catalog:"
   },
   "devDependencies": {
-    "@types/culori": "catalog:",
     "@types/three": "catalog:",
     "@vitest/browser-playwright": "catalog:vitest",
     "vitest": "catalog:vitest",

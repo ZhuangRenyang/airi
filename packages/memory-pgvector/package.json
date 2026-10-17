@@ -21,9 +21,7 @@
   },
   "dependencies": {
     "@guiiai/logg": "catalog:",
-    "@proj-airi/server-sdk": "workspace:^",
-    "drizzle-orm": "catalog:",
-    "postgres": "catalog:"
+    "@proj-airi/server-sdk": "workspace:^"
   },
   "devDependencies": {
     "tsx": "catalog:"

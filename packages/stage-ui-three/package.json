@@ -32,7 +32,6 @@
     "@proj-airi/model-driver-lipsync": "workspace:*",
     "@proj-airi/stage-shared": "workspace:*",
     "@proj-airi/ui": "workspace:*",
-    "@tresjs/cientos": "catalog:",
     "@tresjs/core": "catalog:",
     "@tresjs/post-processing": "catalog:",
     "@vueuse/core": "catalog:",

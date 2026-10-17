@@ -28,13 +28,11 @@
   "dependencies": {
     "@moeru/std": "catalog:",
     "@vueuse/core": "catalog:",
-    "floating-vue": "catalog:",
     "reka-ui": "catalog:",
     "vaul-vue": "catalog:",
     "vue": "catalog:"
   },
   "devDependencies": {
-    "@vue-macros/volar": "catalog:",
     "vue-tsc": "catalog:"
   }
 }

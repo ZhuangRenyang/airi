@@ -8,10 +8,5 @@
     "build": "tsdown",
     "typecheck": "tsc --noEmit"
   },
-  "dependencies": {
-    "@guiiai/logg": "catalog:",
-    "@laplace.live/event-bridge-sdk": "catalog:",
-    "@laplace.live/event-types": "catalog:",
-    "@proj-airi/server-sdk": "workspace:*"
-  }
+  "dependencies": {}
 }

@@ -46,7 +46,6 @@
     "@pixi/core": "catalog:",
     "@pixi/display": "catalog:",
     "@pixi/extensions": "catalog:",
-    "@pixi/interaction": "catalog:",
     "@pixi/loaders": "catalog:",
     "@pixi/math": "catalog:",
     "@pixi/runner": "catalog:",

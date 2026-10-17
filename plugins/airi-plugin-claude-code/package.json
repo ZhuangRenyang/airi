@@ -16,12 +16,9 @@
     "@guiiai/logg": "catalog:",
     "@proj-airi/server-sdk": "workspace:*",
     "cac": "catalog:",
-    "debug": "catalog:",
-    "destr": "catalog:",
-    "vue": "catalog:"
+    "debug": "catalog:"
   },
   "devDependencies": {
-    "tsx": "catalog:",
-    "vue-tsc": "catalog:"
+    "tsx": "catalog:"
   }
 }

@@ -41,7 +41,6 @@
   },
   "dependencies": {
     "@moeru/std": "catalog:",
-    "cac": "catalog:",
     "tinyexec": "catalog:"
   }
 }

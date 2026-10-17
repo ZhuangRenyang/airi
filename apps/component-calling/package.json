@@ -31,9 +31,6 @@
     "xsschema": "catalog:"
   },
   "devDependencies": {
-    "@iconify-json/solar": "catalog:",
-    "@iconify-json/svg-spinners": "catalog:",
-    "@types/xast": "catalog:",
     "@unocss/reset": "catalog:",
     "@vitejs/plugin-vue": "catalog:",
     "vite": "catalog:",

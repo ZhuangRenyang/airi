@@ -15,8 +15,6 @@
     "postinstall": "wxt prepare"
   },
   "devDependencies": {
-    "@iconify-json/solar": "catalog:",
-    "@iconify-json/svg-spinners": "catalog:",
     "@moeru/eventa": "catalog:",
     "@moeru/std": "catalog:",
     "@proj-airi/server-sdk": "workspace:^",

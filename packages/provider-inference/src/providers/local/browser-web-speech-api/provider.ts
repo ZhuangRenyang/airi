@@ -29,6 +29,32 @@ export function createWebSpeechAPIProvider(): TranscriptionProviderWithExtraOpti
   }
 }
 
+/**
+ * Translates native recognition error codes into a cause plus a fix.
+ *
+ * Chrome sends the audio to Google's recognition servers, so a `network`
+ * error means those servers are unreachable (common in mainland China, where
+ * the cloud alternatives should be used instead); Android additionally needs
+ * the system Google speech services.
+ */
+function recognitionErrorHint(error: string) {
+  switch (error) {
+    case 'network':
+      return '浏览器语音识别服务不可达：Chrome 把录音发送到 Google 服务器识别，当前网络无法访问（安卓还需要系统 Google 语音服务）。请改用讯飞听写、百度语音识别、SiliconFlow 或 Sherpaw 本地识别。'
+    case 'not-allowed':
+    case 'service-not-allowed':
+      return '麦克风权限被拒绝。请在浏览器站点设置中允许麦克风，然后重试。'
+    case 'audio-capture':
+      return '未找到可用的麦克风设备。'
+    case 'language-not-supported':
+      return '当前识别语言不被浏览器支持，请在 provider 设置中更换语言。'
+    case 'aborted':
+      return '识别已被中止。'
+    default:
+      return ''
+  }
+}
+
 /** Browser recognition is absent from lib.dom. This boundary describes the native operations used by the provider. */
 interface NativeSpeechRecognition {
   lang: string
@@ -95,8 +121,10 @@ class WebSpeechSession {
       this.recognition.maxAlternatives = options.maxAlternatives ?? 1
       this.recognition.onresult = event => this.result(event)
       this.recognition.onerror = (event) => {
-        if (event.error !== 'no-speech')
-          this.fail(new Error(`Speech recognition error: ${event.error}`))
+        if (event.error !== 'no-speech') {
+          const hint = recognitionErrorHint(event.error)
+          this.fail(new Error(hint ? `语音识别失败：${hint}` : `Speech recognition error: ${event.error}`))
+        }
       }
       this.recognition.onend = () => this.ended()
       this.recognition.onspeechstart = () => this.notify(options.onSpeechStart)

@@ -35,8 +35,7 @@
     "lint": "moeru-lint .",
     "lint:fix": "moeru-lint --fix .",
     "sponsors:generate": "sponsorkit --output-dir docs/assets/sponsors",
-    "typecheck": "turbo run typecheck -F=\"./packages/*\" -F=\"./apps/*\" -F=\"./server/**\" -F=\"./services/*\"",
-    "typecheck:engines": "pnpm -rF=\"./engines/*\" --parallel typecheck",
+    "typecheck": "turbo run typecheck -F=\"./packages/*\" -F=\"./apps/*\" -F=\"./server/**\"",
     "up": "taze -w -r -I && pnpm prune && pnpm dedupe",
     "nolyfill": "pnpm dlx nolyfill",
     "knip": "knip"
@@ -95,10 +94,6 @@
   "workspaces": [
     "packages/**",
     "plugins/**",
-    "integrations/**",
-    "services/**",
-    "examples/**",
-    "engines/**",
     "apps/**",
     "server/**"
   ],

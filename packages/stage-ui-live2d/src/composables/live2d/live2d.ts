@@ -33,15 +33,10 @@ const live2dForceAutoBlinkEnabled = useVersionedLocalStorageManualReset<boolean>
 const live2dExpressionEnabled = useLocalStorageManualReset<boolean>('settings/live2d/expression-enabled', false)
 const live2dShadowEnabled = useLocalStorageManualReset<boolean>('settings/live2d/shadow-enabled', true)
 const live2dMaxFps = useLocalStorageManualReset<number>('settings/live2d/max-fps', 0)
-// NOTICE: the default scale of 2 suits desktop viewports. On mobile portrait
-// screens the same scale renders the model several times wider than the
-// viewport, pushing it out of view entirely — size the default down on
-// narrow screens. Already-persisted values are untouched; users can adjust
-// the scale from the model settings panel.
-const live2dRenderScale = useLocalStorageManualReset<number>(
-  'settings/live2d/render-scale',
-  typeof window !== 'undefined' && window.innerWidth < 768 ? 1 : 2,
-)
+// NOTICE: sized down on narrow screens while the fit rendered the model wider
+// than the viewport (overdraw); the contain fit made that moot and scale 1
+// reads as blurry on ~3x DPR phones. Removal condition: none.
+const live2dRenderScale = useLocalStorageManualReset<number>('settings/live2d/render-scale', 2)
 
 function resetState() {
   live2dMotionDriver.reset()

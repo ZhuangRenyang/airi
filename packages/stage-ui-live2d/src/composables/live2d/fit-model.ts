@@ -28,8 +28,8 @@ export function useFitModel(
     // zoomed mobile portrait into the torso: the fit targets are tuned for the
     // desktop "upper half" framing, which overflows a tall narrow screen.
     // Removal condition: replace with an aspect-aware fit accepted upstream.
-    const heightFactor = narrow ? 0.9 : 2
-    const widthFactor = narrow ? 1 : 2
+    const heightFactor = narrow ? 0.7 : 2
+    const widthFactor = narrow ? 0.75 : 2
 
     const heightScale = (canvas.height / model.height * heightFactor)
     const widthScale = (canvas.width / model.width * widthFactor)

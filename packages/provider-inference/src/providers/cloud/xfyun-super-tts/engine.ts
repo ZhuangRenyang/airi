@@ -75,13 +75,14 @@ export async function synthesizeXfyunSuperSpeech(
       if (typeof event.data !== 'string')
         return
       try {
+        // Unlike the flat v2 TTS frames, this endpoint nests the protocol
+        // header: `{ header: { code, message, sid }, payload: { audio } }`.
         const frame = JSON.parse(event.data) as {
-          code?: number
-          message?: string
+          header?: { code?: number, message?: string }
           payload?: { audio?: { audio?: string, seq?: number, status?: number } }
         }
-        if (frame.code !== 0) {
-          reject(new Error(`讯飞超拟人语音合成失败 (code=${frame.code}): ${frame.message ?? 'unknown'}`))
+        if (frame.header?.code !== 0) {
+          reject(new Error(`讯飞超拟人语音合成失败 (code=${frame.header?.code}): ${frame.header?.message ?? 'unknown'}`))
           return
         }
         const audio = frame.payload?.audio

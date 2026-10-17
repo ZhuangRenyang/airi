@@ -19,7 +19,7 @@
     ".": { "default": "./dist/index.css" },
     "./index.css": { "default": "./dist/index.css" },
     "./files/*": { "default": "./dist/files/*" },
-    "./files/*.ttf": { "default": "./dist/files/*.ttf" },
+    "./files/*.woff2": { "default": "./dist/files/*.woff2" },
     "./*": { "default": "./*.css" }
   },
   "main": "./dist/index.css",

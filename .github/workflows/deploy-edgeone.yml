@@ -1,0 +1,38 @@
+name: Deploy to EdgeOne
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+concurrency:
+  group: deploy-edgeone-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    name: Build and Deploy
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+
+      # Keep the same runtime as CI (Node 26.7.0, Vite 8 requires >= 22.12,
+      # which exceeds the max Node version available in EdgeOne's build env).
+      - uses: pnpm/setup@v2
+        with:
+          runtime: node@26.7.0
+          cache: true
+          install: false
+
+      - run: pnpm install --frozen-lockfile
+
+      - run: pnpm run build:web
+
+      - name: Deploy to EdgeOne Pages
+        # Skip gracefully (keep the workflow green) until the user adds the
+        # EDGEONE_API_TOKEN repository secret.
+        if: ${{ secrets.EDGEONE_API_TOKEN != '' }}
+        env:
+          EDGEONE_API_TOKEN: ${{ secrets.EDGEONE_API_TOKEN }}
+        run: npx edgeone pages deploy apps/stage-web/dist --name airi --token "$EDGEONE_API_TOKEN"

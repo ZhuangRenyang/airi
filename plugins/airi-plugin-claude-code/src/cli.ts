@@ -1,7 +1,5 @@
 import type { Buffer } from 'node:buffer'
 
-import type { HookInput } from '@anthropic-ai/claude-code'
-
 import { argv, exit, stdin } from 'node:process'
 
 import debug from 'debug'
@@ -22,6 +20,12 @@ interface Options {
   failOnWarn?: boolean
   env?: Record<string, string>
   quiet?: boolean
+}
+
+interface ClaudeCodeHookInput {
+  hook_event_name?: string
+  prompt?: string
+  [key: string]: unknown
 }
 
 let logger = useLogg(name).withLogLevel(LogLevel.Log).withFormat(Format.Pretty)
@@ -65,7 +69,7 @@ cli
       throw new Error('`send` received empty stdin input, Claude Code hooks events are expected to be piped to this command.')
     }
 
-    const hookEvent = JSON.parse(stdinInput) as HookInput
+    const hookEvent = JSON.parse(stdinInput) as ClaudeCodeHookInput
 
     if (hookEvent.hook_event_name === 'UserPromptSubmit') {
       const channelServer = new Client({ name: 'proj-airi:plugin-claude-code', autoConnect: false })

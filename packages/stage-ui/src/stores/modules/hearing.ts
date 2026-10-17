@@ -558,6 +558,12 @@ export const useHearingStore = defineStore('hearing-store', () => {
 
   /** Freezes Hearing settings for one request. The controller supplies media and owns cancellation. */
   function createTranscriber(providerId = activeTranscriptionProvider.value, trace: HearingTranscriberTraceOptions = {}): StreamingTranscriber {
+    // Fail fast here, not inside the transcribe callback: getProviderDefinition('')
+    // would otherwise throw an opaque "Provider definition for  not found" before
+    // the actionable selection hint below ever runs.
+    const selectionError = resolveActiveTranscriptionProviderError(providerId)
+    if (selectionError)
+      throw new Error(selectionError)
     const config = structuredClone(toRaw(providerStore.getProviderConfig(providerId) ?? {}))
     const model = resolveActiveTranscriptionModel(activeTranscriptionModel.value, config)
     const threshold = confidenceThreshold.value
@@ -571,9 +577,6 @@ export const useHearingStore = defineStore('hearing-store', () => {
     else if (providerId === SHERPAW_TRANSCRIPTION_PROVIDER_ID || features.supportsStreamInput)
       upload = 'pcm'
     return createHearingTranscriber(async (audio, signal) => {
-      const setupError = resolveActiveTranscriptionProviderError(providerId)
-      if (setupError)
-        throw new Error(setupError)
       if (upload === 'media-stream') {
         // Web Speech recognizes live tracks. Stopping recognition after playback drains keeps the final result.
         // The shared context is created on first use, so stores without Web Speech never allocate audio hardware.

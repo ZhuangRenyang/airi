@@ -1,8 +1,9 @@
 name: Deploy to EdgeOne
 
 on:
-  # EdgeOne's Git integration builds and deploys on push to main.
-  # This workflow is a manual fallback (bypasses EdgeOne's build env).
+  push:
+    branches:
+      - main
   workflow_dispatch:
 
 concurrency:
@@ -18,8 +19,10 @@ jobs:
     steps:
       - uses: actions/checkout@v6
 
-      # Keep the same runtime as CI (Node 26.7.0, Vite 8 requires >= 22.12,
-      # which exceeds the max Node version available in EdgeOne's build env).
+      # Building here instead of in EdgeOne's builder: its container runs out of
+      # memory/disk on this monorepo (the whole server stack is pulled in through
+      # stage-ui's devDependency on api-server, then vite bundles three.js/live2d).
+      # Same runtime as CI.
       - uses: pnpm/setup@v2
         with:
           runtime: node@26.7.0
@@ -34,4 +37,4 @@ jobs:
         # Skip gracefully (keep the workflow green) until the user adds the
         # EDGEONE_API_TOKEN repository secret.
         if: ${{ env.EDGEONE_API_TOKEN != '' }}
-        run: npx edgeone pages deploy apps/stage-web/dist --name airi --token "$EDGEONE_API_TOKEN"
+        run: npx edgeone pages deploy apps/stage-web/dist --name airi-web --token "$EDGEONE_API_TOKEN"

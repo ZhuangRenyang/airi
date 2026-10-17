@@ -11,6 +11,11 @@ const startingOffsetY = computed(() => {
   return 1 // upper half
 })
 
+// NOTICE: the 2x width target zoomed mobile portrait into the torso (model twice
+// the viewport width won the min()); narrow viewports fit the width instead.
+// Removal condition: rework the fit into an aspect-aware single formula.
+const widthFactor = computed(() => breakpoints.smallerOrEqual('md').value ? 1 : 2)
+
 /**
  *  Normalizes the model so that user `scale == 1` means twice the viewport height,
  *  and the model centered horizontally when `position.x == 0`,
@@ -25,7 +30,7 @@ export function useFitModel(
     const model = toValue(modelDim)
 
     const heightScale = (canvas.height / model.height * 2)
-    const widthScale = (canvas.width / model.width * 2)
+    const widthScale = (canvas.width / model.width * widthFactor.value)
     let minScale = Math.min(heightScale, widthScale)
 
     if (Number.isNaN(minScale) || minScale <= 0) {

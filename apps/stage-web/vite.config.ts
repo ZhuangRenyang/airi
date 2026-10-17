@@ -1,3 +1,5 @@
+import type { Plugin } from 'vite'
+
 import process, { cwd, env } from 'node:process'
 
 import { execSync } from 'node:child_process'
@@ -29,6 +31,38 @@ import { defineConfig } from 'vite'
 import { VitePWA } from 'vite-plugin-pwa'
 
 const sharedCacheDir = resolve(join(import.meta.dirname, '..', '..', '.cache'))
+
+/**
+ * Points onnxruntime-web's WebGPU wasm at a byte-identical mirror.
+ *
+ * The file is 26.8 MB — over EdgeOne Pages' 25 MiB per-file limit, which
+ * rejects the whole deployment. npmmirror serves it with CORS headers and
+ * `application/wasm`. Worker bundles build in their own plugin container,
+ * which is why `worker.plugins` registers this plugin again.
+ */
+function OnnxRuntimeWasmFromMirror(): Plugin {
+  // Bump together with the `onnxruntime-web` version in pnpm-workspace.yaml.
+  const version = '1.27.0'
+  const filename = 'ort-wasm-simd-threaded.jsep.wasm'
+  const mirrorUrl = `https://registry.npmmirror.com/onnxruntime-web/${version}/files/dist/${filename}`
+  // Only the `new URL(...)` form emits an asset; the neighbouring
+  // `locateFile(...)` and `base + filename` branches must stay untouched.
+  const reference = /new URL\((["'`])ort-wasm-simd-threaded\.jsep\.wasm\1,\s*(?:""\s*\+\s*)?import\.meta\.url\)\.href/g
+
+  return {
+    name: 'airi-onnx-runtime-wasm-mirror',
+    enforce: 'pre',
+    transform(code) {
+      if (!code.includes(filename) || !code.includes('import.meta.url'))
+        return
+
+      return {
+        code: code.replace(reference, JSON.stringify(mirrorUrl)),
+        map: null,
+      }
+    },
+  }
+}
 
 function hasFlagEnableMkcert(): boolean {
   if (process.argv.includes('--mkcert')) {
@@ -162,11 +196,18 @@ export default defineConfig({
     },
   },
 
+  worker: {
+    // Worker bundles are compiled in their own plugin container, so the
+    // onnxruntime wasm rewrite has to be registered for them explicitly.
+    plugins: () => [OnnxRuntimeWasmFromMirror()],
+  },
+
   plugins: [
     {
       name: 'airi-startup-locales',
       transformIndexHtml: html => html.replace('__AIRI_STARTUP_LOCALES__', serializeStartupFallbackLocales(messages, localeRemap)),
     },
+    OnnxRuntimeWasmFromMirror(),
     ...(
       hasFlagEnableMkcert()
         ? [Mkcert((() => {

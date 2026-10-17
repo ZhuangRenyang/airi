@@ -2,10 +2,12 @@ import { beforeEach, describe, expect, it, vi } from 'vitest'
 
 import { defaultControlConfig, formatter, supportedControl, useL2dViewControl } from './view-control'
 
-vi.mock('@vueuse/core', async () => {
+vi.mock('@proj-airi/stage-shared/composables', async () => {
   const vue = await import('vue')
+  const manualResetRef = vi.fn((_key: string, initialValue: unknown) => vue.ref(initialValue))
   return {
-    useLocalStorage: vi.fn((_key, initialValue) => vue.ref(initialValue)),
+    useLocalStorageManualReset: manualResetRef,
+    useVersionedLocalStorageManualReset: manualResetRef,
   }
 })
 

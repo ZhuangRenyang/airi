@@ -1,4 +1,4 @@
-import { useLocalStorage } from '@vueuse/core'
+import { useVersionedLocalStorageManualReset } from '@proj-airi/stage-shared/composables'
 import { ref } from 'vue'
 
 export const supportedControl = ['x', 'y', 'scale'] as const
@@ -9,10 +9,28 @@ interface ControlConfig { min: number, max: number, step: number, default: numbe
 const viewControlsEnabled = ref(false)
 /** what value to control for the control element */
 const viewControlMode = ref<SupportedControl>('scale')
-/** model position relative to the center of the screen, in percentages */
-const position = useLocalStorage<{ x: number, y: number }>('settings/live2d/position', { x: 0, y: 0 })
+/**
+ * Model position relative to the center of the screen, in percentages.
+ *
+ * NOTICE: versioned storage — the fit semantics changed on 2026-10-17 (narrow
+ * viewports now contain the model instead of the 2x upper-half framing), so
+ * positions dragged under the old fit are stale and reset once to the centered
+ * default. Bump `defaultVersion` when the fit semantics change again.
+ * Removal condition: none, keep bumping the version instead.
+ */
+const position = useVersionedLocalStorageManualReset<{ x: number, y: number }>('settings/live2d/position', { x: 0, y: 0 }, {
+  defaultVersion: '2.0.0',
+  satisfiesVersionBy(beforeVersion, afterVersion) {
+    return beforeVersion === afterVersion
+  },
+})
 /** model scaling factor. `1` means no scaling. */
-const scale = useLocalStorage('settings/live2d/scale', 1)
+const scale = useVersionedLocalStorageManualReset('settings/live2d/scale', 1, {
+  defaultVersion: '2.0.0',
+  satisfiesVersionBy(beforeVersion, afterVersion) {
+    return beforeVersion === afterVersion
+  },
+})
 
 const formatPercentD1 = (val: number) => `${val.toFixed(1)}%`
 const formatToPercent = (val: number) => `${(val * 100).toFixed(0)}%`

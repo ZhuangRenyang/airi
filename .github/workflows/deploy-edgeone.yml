@@ -1,9 +1,8 @@
 name: Deploy to EdgeOne
 
 on:
-  push:
-    branches:
-      - main
+  # EdgeOne's Git integration builds and deploys on push to main.
+  # This workflow is a manual fallback (bypasses EdgeOne's build env).
   workflow_dispatch:
 
 concurrency:

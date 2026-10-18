@@ -1926,6 +1926,15 @@ importers:
       '@proj-airi/drizzle-duckdb-wasm':
         specifier: 'catalog:'
         version: 0.6.0(drizzle-orm@0.45.2(@electric-sql/pglite@0.5.6)(@opentelemetry/api@1.9.1)(@prisma/client@5.22.0)(@types/pg@8.23.1)(better-sqlite3@12.11.1)(kysely@0.29.5)(pg@8.23.0)(postgres@3.4.9))(web-worker@1.5.0)
+      '@proj-airi/font-chillroundm':
+        specifier: workspace:^
+        version: link:../font-chillroundm
+      '@proj-airi/font-cjkfonts-allseto':
+        specifier: workspace:^
+        version: link:../font-cjkfonts-allseto
+      '@proj-airi/font-xiaolai':
+        specifier: workspace:^
+        version: link:../font-xiaolai
       '@proj-airi/i18n':
         specifier: workspace:^
         version: link:../i18n
@@ -2733,6 +2742,15 @@ importers:
 
   packages/unocss-preset-fonts:
     dependencies:
+      '@proj-airi/font-cjkfonts-allseto':
+        specifier: workspace:^
+        version: link:../font-cjkfonts-allseto
+      '@proj-airi/font-departure-mono':
+        specifier: workspace:^
+        version: link:../font-departure-mono
+      '@proj-airi/font-xiaolai':
+        specifier: workspace:^
+        version: link:../font-xiaolai
       '@unocss/core':
         specifier: '>=66'
         version: 66.8.1

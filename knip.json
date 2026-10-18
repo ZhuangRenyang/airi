@@ -8,6 +8,7 @@
   },
   "ignoreDependencies": [
     "@iconify-json/*",
+    "@proj-airi/font-*",
     "@proj-airi/iconify-meteocons",
     "@proj-airi/lobe-icons"
   ]

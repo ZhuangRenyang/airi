@@ -5,7 +5,6 @@ import { afterAll, beforeAll, describe, expect, it, vi } from 'vitest'
 import {
   getBeatSyncInputByteFrequencyData,
   getBeatSyncState,
-  inputAnalyserFFTSize,
   isBeatSyncSupported,
   listenBeatSyncBeatSignal,
   listenBeatSyncStateChange,
@@ -13,7 +12,10 @@ import {
   updateBeatSyncParameters,
 } from './detector'
 
-describe('capacitor Beat Sync runtime', () => {
+// Beat Sync runs only in Stage Web. The former capacitor runtime returned
+// inactive stubs; after the electron dependency subtree was dropped, every
+// other runtime refuses the calls instead of pretending to work.
+describe('beat sync outside Stage Web', () => {
   beforeAll(() => {
     vi.stubEnv('RUNTIME_ENVIRONMENT', 'capacitor')
   })
@@ -22,35 +24,20 @@ describe('capacitor Beat Sync runtime', () => {
     vi.unstubAllEnvs()
   })
 
-  it('registers and removes inactive listeners without throwing', () => {
-    const removeStateListener = listenBeatSyncStateChange(vi.fn())
-    const removeBeatListener = listenBeatSyncBeatSignal(vi.fn())
-
-    expect(removeStateListener).toBeTypeOf('function')
-    expect(removeBeatListener).toBeTypeOf('function')
-    expect(() => removeStateListener()).not.toThrow()
-    expect(() => removeBeatListener()).not.toThrow()
-  })
-
-  it('returns a deterministic inactive state', async () => {
+  it('reports no support', () => {
     expect(isBeatSyncSupported()).toBe(false)
-    await expect(getBeatSyncState()).resolves.toEqual({ isActive: false })
   })
 
-  it('allows inactive configuration calls to settle', async () => {
-    await expect(toggleBeatSync(false)).resolves.toBeUndefined()
-    await expect(updateBeatSyncParameters({})).resolves.toBeUndefined()
+  it('refuses listeners and configuration synchronously', () => {
+    expect(() => listenBeatSyncStateChange(vi.fn())).toThrow('Unknown environment')
+    expect(() => listenBeatSyncBeatSignal(vi.fn())).toThrow('Unknown environment')
+    expect(() => toggleBeatSync(false)).toThrow('Unknown environment')
+    expect(() => toggleBeatSync(true)).toThrow('Unknown environment')
+    expect(() => updateBeatSyncParameters({})).toThrow('Unknown environment')
   })
 
-  it('rejects attempts to enable unsupported screen capture', async () => {
-    await expect(toggleBeatSync(true)).rejects.toThrow('Beat Sync is not available in Stage Pocket')
-  })
-
-  it('returns silent frequency data', async () => {
-    const data = await getBeatSyncInputByteFrequencyData()
-
-    expect(data).toBeInstanceOf(Uint8Array)
-    expect(data).toHaveLength(inputAnalyserFFTSize / 2)
-    expect(data.every(value => value === 0)).toBe(true)
+  it('rejects state and frequency reads', async () => {
+    await expect(getBeatSyncState()).rejects.toThrow('Unknown environment')
+    await expect(getBeatSyncInputByteFrequencyData()).rejects.toThrow('Unknown environment')
   })
 })

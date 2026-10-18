@@ -60,9 +60,9 @@ it('reports capture failures and does not restart an errored stream', async () =
   const context = new AudioContext()
   const media = context.createMediaStreamDestination().stream
   const result = streamWebSpeechAPITranscription(media, { continuous: true })
-  const textFailure = expect(result.text).rejects.toThrow('audio-capture')
-  const textStreamFailure = expect(result.textStream.getReader().read()).rejects.toThrow('audio-capture')
-  const fullStreamFailure = expect(result.fullStream.getReader().read()).rejects.toThrow('audio-capture')
+  const textFailure = expect(result.text).rejects.toThrow('未找到可用的麦克风设备')
+  const textStreamFailure = expect(result.textStream.getReader().read()).rejects.toThrow('未找到可用的麦克风设备')
+  const fullStreamFailure = expect(result.fullStream.getReader().read()).rejects.toThrow('未找到可用的麦克风设备')
   const recognition = instances[0]!
   recognition.onerror?.({ error: 'audio-capture' })
   recognition.onend?.()

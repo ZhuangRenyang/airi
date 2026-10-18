@@ -92,8 +92,6 @@ patchedDependencies:
   tab-election@4.6.2: patches/tab-election@4.6.2.patch
 catalog:
   '@alexanderolsen/libsamplerate-js': ^2.1.2
-  '@alint-js/cli': ^0.6.0
-  '@alint-js/plugin-js': ^0.6.0
   '@antfu/eslint-config': 8.2.0
   '@apple/app-store-server-library': ^3.1.0
   '@arethetypeswrong/core': ^0.18.5
@@ -107,22 +105,11 @@ catalog:
   '@dotenvx/dotenvx': ^2.21.0
   '@electric-sql/pglite': ^0.5.6
   '@electric-sql/pglite-pgvector': 0.0.7
-  '@electron-toolkit/eslint-config-ts': ^3.1.0
   '@electron-toolkit/preload': ^3.0.2
   '@esotericsoftware/spine-webgl': ~4.2.0
   '@esotericsoftware/spine-webgl-4-0': npm:@esotericsoftware/spine-webgl@~4.0.31
   '@esotericsoftware/spine-webgl-4-1': npm:@esotericsoftware/spine-webgl@~4.1.56
   '@fontsource-variable/comfortaa': ^5.3.0
-  '@fontsource-variable/dm-sans': ^5.3.0
-  '@fontsource-variable/jura': ^5.3.0
-  '@fontsource-variable/nunito': ^5.3.0
-  '@fontsource-variable/quicksand': ^5.3.0
-  '@fontsource-variable/urbanist': ^5.3.0
-  '@fontsource/dm-mono': ^5.3.0
-  '@fontsource/dm-serif-display': ^5.3.0
-  '@fontsource/gugi': ^5.3.0
-  '@fontsource/kiwi-maru': ^5.3.0
-  '@fontsource/m-plus-rounded-1c': ^5.3.0
   '@formkit/auto-animate': ^0.10.0
   '@guiiai/logg': ^1.2.12
   '@histoire/plugin-vue': 1.0.0-beta.1
@@ -143,8 +130,6 @@ catalog:
   '@iconify-json/vscode-icons': ^1.2.74
   '@iconify/utils': ^3.1.4
   '@intlify/unplugin-vue-i18n': ^11.2.5
-  '@laplace.live/event-bridge-sdk': ^1.1.0
-  '@laplace.live/event-types': ^2.0.21
   '@lemonneko/crop-empty-pixels': 0.1.1
   '@mediapipe/tasks-vision': ^1.0.1
   '@moeru/eslint-config': 0.1.0-beta.19
@@ -181,7 +166,6 @@ catalog:
   '@pixi/core': ^6.5.10
   '@pixi/display': ^6.5.10
   '@pixi/extensions': ^6.5.10
-  '@pixi/interaction': ^6.5.10
   '@pixi/loaders': ^6.5.10
   '@pixi/math': ^6.5.10
   '@pixi/runner': ^6.5.10
@@ -206,10 +190,7 @@ catalog:
   '@sherpaw/kws': 0.3.0
   '@sherpaw/speaker-diarization': 0.3.0
   '@sherpaw/xsai-transcription': 0.3.0
-  '@shikijs/markdown-it': ^4.4.3
   '@shikijs/rehype': ^4.4.3
-  '@shopify/draggable': ^1.2.1
-  '@tresjs/cientos': ^5.8.1
   '@tresjs/core': ^5.8.3
   '@tresjs/post-processing': ^3.7.4
   '@types/audioworklet': ^0.0.100
@@ -222,35 +203,24 @@ catalog:
   '@types/nprogress': ^0.2.3
   '@types/pg': ^8.23.1
   '@types/semver': ^7.8.0
-  '@types/splitpanes': ^2.2.6
   '@types/three': ^0.185.4
   '@types/unist': ^3.0.3
   '@types/w3c-web-hid': ^1.0.7
   '@types/ws': ^8.18.1
-  '@types/xast': ^2.0.4
-  '@types/yauzl': ^3.4.0
-  '@unocss/eslint-config': 66.7.5
   '@unocss/eslint-plugin': 66.7.5
   '@unocss/preset-mini': 66.7.5
   '@unocss/preset-web-fonts': 66.7.5
   '@unocss/reset': 66.7.5
-  '@valibot/to-json-schema': 1.0.0-rc.0
-  '@vishot/cli': ^0.2.0
   '@vitejs/plugin-vue': ^6.0.8
-  '@vue-macros/volar': ^3.1.4
-  '@vue/test-utils': ^2.4.11
   '@vueuse/core': ^14.4.0
   '@vueuse/motion': ^3.0.3
-  '@vueuse/shared': ^14.4.0
   '@wxt-dev/module-vue': ^1.0.3
   '@xsai-apple-speech/transcription': 0.1.3
   '@xsai-apple-speech/transcription-electron-plugin': 0.1.3
   '@xsai-apple-vision/vision-electron-plugin': 0.1.0
   '@xsai-ext/providers': 0.5.1
   '@xsai-ext/responses': 0.5.1
-  '@xsai-transformers/embed': ^0.1.0
   '@xsai-transformers/shared': ^0.1.0
-  '@xsai/embed': 0.5.1
   '@xsai/generate-speech': 0.5.1
   '@xsai/generate-text': 0.5.1
   '@xsai/generate-transcription': 0.5.1
@@ -275,23 +245,18 @@ catalog:
   d3: 7.9.0
   date-fns: ^4.4.0
   debug: ^4.4.3
-  destr: ^2.0.5
   dockview-vue: ^8.2.0
   dompurify: ^3.4.14
-  driver.js: ^1.8.0
   drizzle-kit: ^0.31.10
   drizzle-orm: ^0.45.2
   drizzle-valibot: ^0.4.2
-  embla-carousel-autoplay: 9.0.0-rc01
   embla-carousel-vue: 9.0.0-rc02
   es-toolkit: ^1.51.0
   eslint: ^10.9.0
   eslint-plugin-format: ^2.0.1
   eslint-plugin-oxlint: ^1.79.0
-  eslint-plugin-perfectionist: ^5.10.1
   eslint-plugin-slop: 0.1.3
   fflate: ^0.8.3
-  floating-vue: ^5.2.2
   gpuu: ^1.0.7
   h3: 2.0.1-rc.29
   hfup: ^1.0.4
@@ -320,8 +285,6 @@ catalog:
   node-vibrant: ^4.0.4
   nprogress: ^0.2.0
   ofetch: ^1.5.1
-  onnxruntime-web: ^1.27.0
-  oxc-minify: ^0.146.0
   oxlint: ^1.79.0
   pg: ^8.23.0
   pinia: ^4.0.3
@@ -329,7 +292,6 @@ catalog:
   pixi-filters: ^4.2.0
   pixi-live2d-display: ^0.4.0
   playwright: ^1.62.1
-  postgres: ^3.4.9
   postprocessing: ^6.39.4
   publint: ^0.3.24
   rehype-katex: ^7.0.1
@@ -340,13 +302,11 @@ catalog:
   remark-parse: ^11.0.0
   remark-rehype: ^11.1.2
   resend: ^6.22.0
-  rollup: ^4.62.5
   semver: ^7.8.5
   shiki: ^4.4.3
   simple-git-hooks: ^2.13.1
   splitpanes: ^4.1.2
   sponsorkit: 17.1.0
-  sponsors-svg: ^0.3.0
   srvx: ^0.12.7
   stripe: ^22.5.0
   superjson: ^2.2.6
@@ -360,14 +320,11 @@ catalog:
   typescript: ^6.0.3
   uncrypto: ^0.1.3
   unified: ^11.0.5
-  unist-builder: ^4.0.0
   unist-util-visit: ^5.1.0
   unocss: 66.7.5
   unocss-preset-scrollbar: ^4.0.0
   unplugin-basemove: 0.0.1
   unplugin-info: ^1.3.2
-  unplugin-lightningcss: ^0.5.0
-  unplugin-raw: ^0.7.0
   unplugin-unused: ^0.6.0
   unplugin-yaml: ^4.2.1
   unstorage: ^1.17.5
@@ -377,7 +334,6 @@ catalog:
   vieval: ^0.0.12
   virtua: ^0.50.4
   vite: ^8.2.2
-  vite-bundle-visualizer: ^1.2.1
   vite-plugin-inspect: 12.0.0-beta.1
   vite-plugin-mkcert: ^2.1.0
   vite-plugin-pwa: ^1.3.0
@@ -385,7 +341,6 @@ catalog:
   vite-plugin-vue-layouts: ^0.11.0
   vitest-browser-vue: ^2.1.0
   vue: ^3.5.41
-  vue-demi: ^0.14.10
   vue-i18n: ^11.4.9
   vue-macros: ^3.1.4
   vue-router: ^5.2.0
@@ -402,7 +357,6 @@ catalog:
   xsai-chromium-prompt: ^0.2.2
   xsschema: 0.5.1
   yaml: ^2.9.0
-  yauzl: ^3.4.0
   zod: ^4.4.3
 catalogs:
   vitest:

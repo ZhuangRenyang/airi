@@ -29,5 +29,9 @@
     "@unocss/core": ">=66",
     "@unocss/preset-web-fonts": ">=66"
   },
-  "dependencies": {}
+  "dependencies": {
+    "@proj-airi/font-cjkfonts-allseto": "workspace:^",
+    "@proj-airi/font-departure-mono": "workspace:^",
+    "@proj-airi/font-xiaolai": "workspace:^"
+  }
 }

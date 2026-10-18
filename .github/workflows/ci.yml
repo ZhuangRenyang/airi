@@ -116,6 +116,9 @@ jobs:
           install: false
 
       - run: pnpm install --frozen-lockfile
+      # Workspace types resolve through dist exports (tsdown packages), so the
+      # packages must exist before typecheck runs.
+      - run: pnpm run build:packages
       - run: pnpm run typecheck
 
   check-provenance:

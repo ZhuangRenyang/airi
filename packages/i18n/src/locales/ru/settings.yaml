@@ -1921,6 +1921,9 @@ pages:
       transcriptions:
         playground:
           title: Песочница транскрипции
+      agnes-ai:
+        title: Agnes AI
+        description: agnes-ai.com — мультимодальный API-хаб, совместимый с OpenAI.
       aihubmix:
         description: https://aihubmix.com (скидка 10%)
     title: Провайдеры

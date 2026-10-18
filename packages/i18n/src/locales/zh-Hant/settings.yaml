@@ -1902,6 +1902,9 @@ pages:
       transcriptions:
         playground:
           title: 實驗平台
+      agnes-ai:
+        title: Agnes AI
+        description: agnes-ai.com - OpenAI 相容的多模態 AI 聚合介面
       aihubmix:
         description: https://aihubmix.com (10% 優惠)
     title: 服務來源

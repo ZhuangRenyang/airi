@@ -1886,6 +1886,9 @@ pages:
       transcriptions:
         playground:
           title: 전사 놀이터
+      agnes-ai:
+        title: Agnes AI
+        description: agnes-ai.com - OpenAI 호환 멀티모달 AI API 허브
       aihubmix:
         description: https://aihubmix.com (10% 할인)
     title: 제공자

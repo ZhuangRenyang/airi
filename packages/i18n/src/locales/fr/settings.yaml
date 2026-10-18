@@ -1830,6 +1830,9 @@ pages:
       transcriptions:
         playground:
           title: Terrain de test de transcription
+      agnes-ai:
+        title: Agnes AI
+        description: agnes-ai.com - Hub d'API d'IA multimodale compatible OpenAI.
       aihubmix:
         description: https://aihubmix.com (10 % de réduction)
     title: Fournisseurs

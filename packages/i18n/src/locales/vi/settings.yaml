@@ -1887,6 +1887,9 @@ pages:
       transcriptions:
         playground:
           title: Thử nghiệm chuyển văn bản
+      agnes-ai:
+        title: Agnes AI
+        description: agnes-ai.com - Hub API AI đa phương thức tương thích OpenAI.
       aihubmix:
         description: https://aihubmix.com (Giảm giá 10%)
     title: Nhà cung cấp

@@ -1886,6 +1886,9 @@ pages:
       transcriptions:
         playground:
           title: 文字起こし実験場
+      agnes-ai:
+        title: Agnes AI
+        description: agnes-ai.com - OpenAI 互換のマルチモーダル AI API ハブ
       aihubmix:
         description: https://aihubmix.com (10% オフ)
     title: プロバイダー

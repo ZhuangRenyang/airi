@@ -1,6 +1,7 @@
 import type { ProviderDefinition } from '../types'
 
 import { provider302AI } from './cloud/302-ai'
+import { providerAgnesAI } from './cloud/agnes-ai'
 import { providerAIHubMix } from './cloud/aihubmix'
 import { providerAmazonBedrock } from './cloud/amazon-bedrock'
 import { providerAnthropic } from './cloud/anthropic'
@@ -94,6 +95,7 @@ function eraseProviderDefinitions<const TDefinitions extends readonly ProviderDe
  */
 export const portableProviderDefinitions = eraseProviderDefinitions(
   provider302AI,
+  providerAgnesAI,
   providerAIHubMix,
   providerAmazonBedrock,
   providerAnthropic,

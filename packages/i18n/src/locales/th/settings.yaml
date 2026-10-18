@@ -1871,6 +1871,9 @@ pages:
       transcriptions:
         playground:
           title: พื้นที่ทดลองการถอดเสียง
+      agnes-ai:
+        title: Agnes AI
+        description: agnes-ai.com - ฮับ API AI มัลติโมดัลที่รองรับ OpenAI
       aihubmix:
         description: https://aihubmix.com (ลด 10%)
     title: ผู้ให้บริการ

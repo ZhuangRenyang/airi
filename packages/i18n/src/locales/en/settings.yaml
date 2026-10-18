@@ -2212,6 +2212,9 @@ pages:
       transcriptions:
         playground:
           title: Transcription Playground
+      agnes-ai:
+        title: Agnes AI
+        description: agnes-ai.com - OpenAI-compatible multimodal AI API hub.
       aihubmix:
         title: AIHubMix
         description: https://aihubmix.com (10% off)

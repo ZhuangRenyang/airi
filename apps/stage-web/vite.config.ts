@@ -84,6 +84,14 @@ export default defineConfig({
     'import.meta.env.VITE_DISABLE_CLOUD_AUTH': JSON.stringify('true'),
   },
   optimizeDeps: {
+    include: [
+      // Pre-bundle these so the dev server does not optimize them lazily —
+      // a mid-test "optimized dependencies changed" reload flakes the
+      // browser tests (vitest warns and reloads the page mid-assertion).
+      '@formkit/auto-animate/vue',
+      'nprogress',
+      'pinia-plugin-synced',
+    ],
     exclude: [
       // Internal Packages
       '@proj-airi/stage-ui/*',
@@ -189,17 +197,14 @@ export default defineConfig({
   },
   worker: {
     format: 'es',
+    // Worker bundles are compiled in their own plugin container, so the
+    // onnxruntime wasm rewrite has to be registered for them explicitly.
+    plugins: () => [OnnxRuntimeWasmFromMirror()],
     rollupOptions: {
       output: {
         inlineDynamicImports: false,
       },
     },
-  },
-
-  worker: {
-    // Worker bundles are compiled in their own plugin container, so the
-    // onnxruntime wasm rewrite has to be registered for them explicitly.
-    plugins: () => [OnnxRuntimeWasmFromMirror()],
   },
 
   plugins: [

@@ -29,8 +29,10 @@ jobs:
       - uses: actions/checkout@v6
         with:
           ref: main # Use main regardless of workflow_dispatch branch
-          # Authenticate git with PAT so that pushing to head retriggers CI
-          token: ${{ secrets.HASH_UPDATE_TOKEN }}
+          # Authenticate git with PAT so that pushing to head retriggers CI.
+          # Forks/self-hosted copies without the secret fall back to the
+          # workflow token so checkout does not fail on an empty input.
+          token: ${{ secrets.HASH_UPDATE_TOKEN || github.token }}
 
       - uses: cachix/install-nix-action@v31
         with:

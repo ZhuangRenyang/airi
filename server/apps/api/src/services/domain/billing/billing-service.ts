@@ -224,11 +224,18 @@ export function createBillingService(
         }
 
         const operationId = `capacitor:${nanoid()}`
+        // The refill rule in the doc comment: a later period start refills the
+        // bucket — a plan change is a new grant — while the same or an earlier
+        // start keeps the spent amount, capped to a smaller quota. A later
+        // start hands an empty bucket to `settleOutstanding`, which refills to
+        // the quota and ledgers the forfeited remainder like any other refill.
+        const startsLaterPeriod = wallet.capacitorPeriodStart === null || wallet.capacitorPeriodStart.getTime() < period.periodStart.getTime()
         const capacitor = {
-          capacitorFlux: Math.min(wallet.capacitorFlux, period.quota),
+          capacitorFlux: startsLaterPeriod ? wallet.capacitorFlux : Math.min(wallet.capacitorFlux, period.quota),
           capacitorQuota: period.quota,
           capacitorExpiresAt: period.expiresAt,
           capacitorPeriodStart: period.periodStart,
+          ...(startsLaterPeriod ? { capacitorFilledAt: null } : {}),
         }
         await tx.update(fluxSchema.userFlux).set(capacitor).where(eq(fluxSchema.userFlux.userId, userId))
         if (capacitor.capacitorFlux < wallet.capacitorFlux) {

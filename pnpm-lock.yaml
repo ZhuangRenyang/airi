@@ -63,6 +63,36 @@ catalogs:
     '@fontsource-variable/comfortaa':
       specifier: ^5.3.0
       version: 5.3.0
+    '@fontsource-variable/dm-sans':
+      specifier: ^5.3.0
+      version: 5.3.0
+    '@fontsource-variable/jura':
+      specifier: ^5.3.0
+      version: 5.3.0
+    '@fontsource-variable/nunito':
+      specifier: ^5.3.0
+      version: 5.3.0
+    '@fontsource-variable/quicksand':
+      specifier: ^5.3.0
+      version: 5.3.0
+    '@fontsource-variable/urbanist':
+      specifier: ^5.3.0
+      version: 5.3.0
+    '@fontsource/dm-mono':
+      specifier: ^5.3.0
+      version: 5.3.0
+    '@fontsource/dm-serif-display':
+      specifier: ^5.3.0
+      version: 5.3.0
+    '@fontsource/gugi':
+      specifier: ^5.3.0
+      version: 5.3.0
+    '@fontsource/kiwi-maru':
+      specifier: ^5.3.0
+      version: 5.3.1
+    '@fontsource/m-plus-rounded-1c':
+      specifier: ^5.3.0
+      version: 5.3.0
     '@formkit/auto-animate':
       specifier: ^0.10.0
       version: 0.10.0
@@ -2179,6 +2209,39 @@ importers:
         specifier: 'catalog:'
         version: 4.4.3
     devDependencies:
+      '@fontsource-variable/comfortaa':
+        specifier: 'catalog:'
+        version: 5.3.0
+      '@fontsource-variable/dm-sans':
+        specifier: 'catalog:'
+        version: 5.3.0
+      '@fontsource-variable/jura':
+        specifier: 'catalog:'
+        version: 5.3.0
+      '@fontsource-variable/nunito':
+        specifier: 'catalog:'
+        version: 5.3.0
+      '@fontsource-variable/quicksand':
+        specifier: 'catalog:'
+        version: 5.3.0
+      '@fontsource-variable/urbanist':
+        specifier: 'catalog:'
+        version: 5.3.0
+      '@fontsource/dm-mono':
+        specifier: 'catalog:'
+        version: 5.3.0
+      '@fontsource/dm-serif-display':
+        specifier: 'catalog:'
+        version: 5.3.0
+      '@fontsource/gugi':
+        specifier: 'catalog:'
+        version: 5.3.0
+      '@fontsource/kiwi-maru':
+        specifier: 'catalog:'
+        version: 5.3.1
+      '@fontsource/m-plus-rounded-1c':
+        specifier: 'catalog:'
+        version: 5.3.0
       '@formkit/auto-animate':
         specifier: 'catalog:'
         version: 0.10.0(vue@3.5.41(typescript@6.0.3))
@@ -2634,6 +2697,12 @@ importers:
         specifier: catalog:vitest
         version: 4.1.11(@opentelemetry/api@1.9.1)(@types/node@26.2.0)(@vitest/browser-playwright@4.1.11)(@vitest/coverage-v8@4.1.11)(jsdom@30.0.1(@noble/hashes@2.3.0)(canvas@3.2.3))(vite@8.2.2(@types/node@26.2.0)(esbuild@0.28.2)(jiti@2.7.0)(less@4.9.0(supports-color@10.2.2))(terser@5.50.0)(tsx@4.23.12)(yaml@2.9.0))
     devDependencies:
+      '@proj-airi/audio':
+        specifier: workspace:^
+        version: link:../audio
+      '@proj-airi/pipelines-audio':
+        specifier: workspace:^
+        version: link:../pipelines-audio
       '@types/node':
         specifier: 'catalog:'
         version: 26.2.0
@@ -4842,6 +4911,36 @@ packages:
 
   '@fontsource-variable/comfortaa@5.3.0':
     resolution: {integrity: sha512-al/XR/3rUwZRLPAgAN7VsHKudQ27++W2sEQPhRpkg7x9a8VISekS3eQr4c3lICNWDfflz+gVes8dfekL/yY+Ng==}
+
+  '@fontsource-variable/dm-sans@5.3.0':
+    resolution: {integrity: sha512-BpUG5bqePiDFMBM4ZtLSlPdAIOM990uB1dlXzIf4aw21yQR7BmykedLXXXMqGWsR18aMLOsbWccwJNh3ztTQaA==}
+
+  '@fontsource-variable/jura@5.3.0':
+    resolution: {integrity: sha512-/1lf4WDeP9yGqBu9kdI8sUOAsChVqEyLUw6U09u2eWRL+L08Sj/AdoDYtGM3MMOkoW5zEgwQrfSs/vJCKQFfyw==}
+
+  '@fontsource-variable/nunito@5.3.0':
+    resolution: {integrity: sha512-tw0ch7evIDSwoeUy+0XzocYHfbRWLeCRPJy22KgbrLjDLAbNw/fErBiil10Ssrs3Sjr55zaZrr36a975j8cBkQ==}
+
+  '@fontsource-variable/quicksand@5.3.0':
+    resolution: {integrity: sha512-EMyoXnGC0uIbjyHDB01MTJoQuODsMo7Q/4XLEwN97YJEeV1WIVFI0QBiW2exGnxvhnMHb+IwQ9E5QZDgGMWCHw==}
+
+  '@fontsource-variable/urbanist@5.3.0':
+    resolution: {integrity: sha512-riHbcRgoOhEdCwVw3n3R1JLEwvRD1N9GlXtBcwl/UJ2KabfyDBuryE2Yq10308QJgbXw3F/IFF+VoMuuqwVfIA==}
+
+  '@fontsource/dm-mono@5.3.0':
+    resolution: {integrity: sha512-OINjI8C1S/wpchhQxl7njZdMn4+hnDCpQ4YtvvOpKNARo+0J8O1x1IcrChxNjHOhfVv1by8C/FQoy3hXK+C1Ug==}
+
+  '@fontsource/dm-serif-display@5.3.0':
+    resolution: {integrity: sha512-ecRclUcYeto9fB7ghkB36H4MtUoaUYFjjornWYYeLCMHzaWEDPk2kIWgZOq0mKBNRxclRSieKcFeLonlMYDTKg==}
+
+  '@fontsource/gugi@5.3.0':
+    resolution: {integrity: sha512-ntP6y/AXG1l/gLKmY5nw8y30DiZyB3ycCPKCBtU8B4WjNOzDcr9rLTn8kcbz0FfS4ol/0+WQc+aLGnEkCgtZtg==}
+
+  '@fontsource/kiwi-maru@5.3.1':
+    resolution: {integrity: sha512-FTup3q1lifmroaQUMC1BC2HwFG0X7jSO80PlqTQUIYIYRag0setwHTsIQsRzxNZUwfrlK8pNyEdQ8A1mPoLuYw==}
+
+  '@fontsource/m-plus-rounded-1c@5.3.0':
+    resolution: {integrity: sha512-eB/JxJBRXLdfTsBDElsAZDMtHXM58Hf1tKkHoDVZAaUN7a+qYfwNKh4Q2f7Fk9YNg4xPFjTwooVlQyqbhi8CWQ==}
 
   '@formkit/auto-animate@0.10.0':
     resolution: {integrity: sha512-KGomRttjUfORuPUaR/ZGQw+6xfMrTM+sxnILv7JAd9AmabU9rg9i6gF/iC0Ih+QpKCubJpCA/1DX9UHKE8cX+A==}
@@ -16260,6 +16359,26 @@ snapshots:
       - vue
 
   '@fontsource-variable/comfortaa@5.3.0': {}
+
+  '@fontsource-variable/dm-sans@5.3.0': {}
+
+  '@fontsource-variable/jura@5.3.0': {}
+
+  '@fontsource-variable/nunito@5.3.0': {}
+
+  '@fontsource-variable/quicksand@5.3.0': {}
+
+  '@fontsource-variable/urbanist@5.3.0': {}
+
+  '@fontsource/dm-mono@5.3.0': {}
+
+  '@fontsource/dm-serif-display@5.3.0': {}
+
+  '@fontsource/gugi@5.3.0': {}
+
+  '@fontsource/kiwi-maru@5.3.1': {}
+
+  '@fontsource/m-plus-rounded-1c@5.3.0': {}
 
   '@formkit/auto-animate@0.10.0(vue@3.5.41(typescript@6.0.3))':
     dependencies:

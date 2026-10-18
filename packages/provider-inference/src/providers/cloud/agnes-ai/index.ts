@@ -51,6 +51,10 @@ export const providerAgnesAI = defineProvider<AgnesAIConfig, 'agnes-ai'>({
   validators: {
     ...createOpenAICompatibleValidators({
       checks: [ProviderValidationCheck.Connectivity, ProviderValidationCheck.ModelList, ProviderValidationCheck.ChatCompletions],
+      // Agnes AI lists paid models alongside its free tier. Free accounts have a
+      // $0 balance, so validating against a paid model fails with 403
+      // insufficient_user_quota. Prefer the free text tier (agnes-*-flash).
+      validationModelPreference: /^agnes-\d+(?:\.\d+)?-flash$/i,
     }),
   },
 })

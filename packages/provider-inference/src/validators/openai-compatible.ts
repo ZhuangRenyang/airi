@@ -24,6 +24,13 @@ interface OpenAICompatibleValidationOptions<TConfig extends { apiKey?: string, b
   connectivityFailureReason?: (input: { config: TConfig, error: unknown, errorMessage: string }) => string
   modelListFailureReason?: (input: { config: TConfig, error: unknown, errorMessage: string }) => string
   chatCompletionTokenParameter?: 'max_tokens' | 'max_completion_tokens'
+  /**
+   * When set, the chat completions check prefers the first catalog model
+   * matching this pattern (e.g. a provider's free tier) before falling
+   * back to catalog order. Catalog order may surface paid models that
+   * fail validation for accounts without balance.
+   */
+  validationModelPreference?: RegExp
 }
 
 function extractStatusCode(error: unknown): number | null {
@@ -90,13 +97,17 @@ async function pickValidationModel<TConfig extends { apiKey?: string | null, bas
   config: TConfig,
   provider: ProviderInstance,
   providerExtra: ProviderExtraMethods<TConfig> | undefined,
+  preference?: RegExp,
 ): Promise<string | null> {
   // A configured model expresses the user's protocol choice. Catalog order does not.
   if ('model' in config && typeof config.model === 'string' && config.model.trim())
     return config.model.trim()
   try {
     const models = await resolveModels(config, provider, providerExtra)
-    const modelId = extractModelId(models.find(model => !shouldSkipModelId(extractModelId(model))))
+    const preferred = preference
+      ? models.find(model => preference.test(extractModelId(model)) && !shouldSkipModelId(extractModelId(model)))
+      : undefined
+    const modelId = extractModelId(preferred ?? models.find(model => !shouldSkipModelId(extractModelId(model))))
     return modelId || null
   }
   catch {
@@ -123,7 +134,7 @@ export function createOpenAICompatibleValidators<TConfig extends { apiKey?: stri
     provider: ProviderInstance,
     providerExtra: ProviderExtraMethods<TConfig> | undefined,
   ): Promise<ChatCheckResult> {
-    const model = await pickValidationModel(config, provider, providerExtra)
+    const model = await pickValidationModel(config, provider, providerExtra, options?.validationModelPreference)
     const normalizedModel = model ? options?.normalizeModelId?.(model) ?? model : model
 
     if (!normalizedModel) {

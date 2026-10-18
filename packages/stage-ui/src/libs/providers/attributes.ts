@@ -43,7 +43,7 @@ const recommendedPaidCloud = {
 
 const providerAttributesById = {
   '302-ai': paidCloud,
-  'agnes-ai': paidCloud,
+  'agnes-ai': freeCloud,
   'aihubmix': paidCloud,
   'aivis-speech': freeLocal,
   'alibaba-cloud-model-studio': paidCloud,

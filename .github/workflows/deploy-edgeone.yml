@@ -37,4 +37,8 @@ jobs:
         # Skip gracefully (keep the workflow green) until the user adds the
         # EDGEONE_API_TOKEN repository secret.
         if: ${{ env.EDGEONE_API_TOKEN != '' }}
-        run: npx edgeone pages deploy apps/stage-web/dist --name airi-web --token "$EDGEONE_API_TOKEN"
+        # --area overseas = 全球可用区(不含中国大陆): the default "global"
+        # includes the mainland, which then requires ICP filing to bind any
+        # custom domain. overseas accepts the unfiled domain and still serves
+        # mainland visitors through overseas nodes.
+        run: npx edgeone pages deploy apps/stage-web/dist --name airi-web --area overseas --token "$EDGEONE_API_TOKEN"

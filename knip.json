@@ -5,5 +5,10 @@
   ],
   "workspaces": {
     ".": {}
-  }
+  },
+  "ignoreDependencies": [
+    "@iconify-json/*",
+    "@proj-airi/iconify-meteocons",
+    "@proj-airi/lobe-icons"
+  ]
 }

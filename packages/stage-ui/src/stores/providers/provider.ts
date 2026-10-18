@@ -9,9 +9,9 @@ import { getGenerationProvider } from '@proj-airi/provider-inference'
 import { isCustomProvidersDisabled } from '@proj-airi/stage-shared'
 import { computedAsync, useAsyncState, useIntervalFn } from '@vueuse/core'
 import { listModels } from '@xsai/model'
-import { uniqBy } from 'es-toolkit'
+import { cloneDeep, uniqBy } from 'es-toolkit'
 import { defineStore } from 'pinia'
-import { computed, onScopeDispose, ref, toRaw, watch } from 'vue'
+import { computed, onScopeDispose, ref, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
 
 import {
@@ -628,9 +628,15 @@ export const useProviderStore = defineStore('provider', () => {
 
   /** Captures caller configuration so voice RPCs do not depend on snapshot delivery order. */
   function getVoiceCatalogConfiguration(providerId: string): VoiceCatalogConfiguration {
+    // ROOT CAUSE:
+    //
+    // `structuredClone` rejects Vue reactive proxies nested inside the config
+    // (e.g. xfyun-super-tts `voiceSettings`): "Failed to execute
+    // 'structuredClone': #<Object> could not be cloned." `toRaw` unwraps only
+    // the outermost object, so take a deep plain copy first.
     return {
       definitionId: getProviderDefinition(providerId).id,
-      config: structuredClone(toRaw(providerConfigStore.getProviderConfig(providerId) ?? {})),
+      config: structuredClone(cloneDeep(providerConfigStore.getProviderConfig(providerId) ?? {})),
     }
   }
 

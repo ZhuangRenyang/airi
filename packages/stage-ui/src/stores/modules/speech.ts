@@ -9,9 +9,9 @@ import { errorMessageFrom } from '@moeru/std'
 import { useLocalStorageManualReset } from '@proj-airi/stage-shared/composables'
 import { refManualReset } from '@vueuse/core'
 import { generateSpeech } from '@xsai/generate-speech'
-import { isEqual } from 'es-toolkit'
+import { cloneDeep, isEqual } from 'es-toolkit'
 import { defineStore, getActivePinia, storeToRefs } from 'pinia'
-import { computed, hasInjectionContext, inject, onScopeDispose, toRaw, watch } from 'vue'
+import { computed, hasInjectionContext, inject, onScopeDispose, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { toXml } from 'xast-util-to-xml'
 import { x } from 'xastscript'
@@ -544,9 +544,11 @@ export const useSpeechStore = defineStore('speech', () => {
   /** Captures one response's provider, voice, model, and settings before any asynchronous work. */
   function createOutput(turn: TurnRef, selection: AiriExtension['modules']['speech'], output: Pick<SpeechOutput, 'playback' | 'onPlaybackStart' | 'onPlaybackEnd' | 'onSpecial'>, audioContext: AudioContext): SpeechOutput {
     const providerId = selection.provider
-    const config = structuredClone(toRaw(providerStore.getProviderConfig(providerId) ?? {}))
+    // Deep plain copy: `structuredClone` rejects the reactive proxies nested
+    // inside configs with nested objects (e.g. xfyun-super-tts voiceSettings).
+    const config = structuredClone(cloneDeep(providerStore.getProviderConfig(providerId) ?? {}))
     const selectedVoice = availableVoices.value[providerId]?.find(voice => voice.id === selection.voice_id)
-    const voice = selectedVoice ? structuredClone(toRaw(selectedVoice)) : undefined
+    const voice = selectedVoice ? structuredClone(cloneDeep(selectedVoice)) : undefined
     const model = selection.model || (typeof config.model === 'string' ? config.model : '')
     const voiceId = selection.voice_id || (typeof config.voice === 'string' ? config.voice : '')
     const useSSML = ssmlEnabled.value

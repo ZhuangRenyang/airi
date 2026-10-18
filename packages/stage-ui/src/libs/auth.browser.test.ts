@@ -3,7 +3,11 @@ import { afterEach, beforeEach, describe, expect, it } from 'vitest'
 import { isSigningIn, registerAuthorizationHandler, triggerSignIn } from './auth'
 import { consumeFlowState } from './auth-oidc'
 
-describe('isSigningIn', () => {
+// NOTICE: `triggerSignIn` is hard-disabled in this self-hosted web-only fork
+// (see ./auth.ts) — it returns immediately and never invokes the registered
+// authorization handler, so every assertion below would time out. Re-enable
+// when a sign-in server accepting custom deployment origins is available.
+describe.skip('isSigningIn', () => {
   beforeEach(() => {
     consumeFlowState()
   })

@@ -165,7 +165,9 @@ describe('migrated provider definitions', () => {
     const defaults = z.parse(await definition.createProviderConfig({ t: translate }), {})
 
     expect(defaults).toEqual({
-      language: 'en-US',
+      // This fork defaults Web Speech recognition to Chinese
+      // (23bef965d); upstream keeps 'en-US'.
+      language: 'zh-CN',
       continuous: true,
       interimResults: true,
       maxAlternatives: 1,

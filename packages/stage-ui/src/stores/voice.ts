@@ -491,8 +491,11 @@ export const useVoiceStore = defineStore('voice', () => {
       detectWakeWord: options.detectWakeWord ?? wakeWords?.detect,
       enabled: () => !voiceMessages.isRecording,
       silenceMs: () => hearing.endJudgeEnabled ? VOICE_END_SILENCE.pauseMs + VOICE_END_SILENCE.graceMs : VOICE_END_SILENCE.pauseMs,
-      // Automatic barge-in requires platform echo cancellation or an external echo classifier.
-      acceptSpeech: options.acceptSpeech ?? (async () => !speaking.nowSpeaking || devices.source.echoCancellation),
+      // Half duplex. The microphone hears the character's playback, and platform echo
+      // cancellation does not cover Web Audio output, so barge-in on `echoCancellation`
+      // interrupted every spoken reply after its first syllables. Speech during playback
+      // waits for the playback to end, then starts an input as usual.
+      acceptSpeech: options.acceptSpeech ?? (async () => !speaking.nowSpeaking),
       // Wake word mode returns no target, so VAD alone cannot start an input. A wake supplies its own target.
       target: () => sessions.activeSessionId && hearing.configured && startsInputOnSpeech(hearing.inputMode)
         ? { sessionId: sessions.activeSessionId, interruptTurns: activeTurns.value.filter(turn => turn.sessionId === sessions.activeSessionId) }

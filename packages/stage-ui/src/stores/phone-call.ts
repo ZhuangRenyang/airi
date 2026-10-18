@@ -13,6 +13,7 @@ import { useVoiceStore } from './voice'
 interface PhoneCallSnapshot {
   inputMode: HearingInputMode
   autoSendEnabled: boolean
+  rephraseEnabled: boolean
   microphoneEnabled: boolean
 }
 
@@ -30,9 +31,9 @@ function readSnapshot(): PhoneCallSnapshot | undefined {
     return undefined
   try {
     const snapshot = JSON.parse(raw) as Partial<PhoneCallSnapshot>
-    if (typeof snapshot.inputMode !== 'string' || typeof snapshot.autoSendEnabled !== 'boolean' || typeof snapshot.microphoneEnabled !== 'boolean')
+    if (typeof snapshot.inputMode !== 'string' || typeof snapshot.autoSendEnabled !== 'boolean' || typeof snapshot.rephraseEnabled !== 'boolean' || typeof snapshot.microphoneEnabled !== 'boolean')
       return undefined
-    return { inputMode: snapshot.inputMode as HearingInputMode, autoSendEnabled: snapshot.autoSendEnabled, microphoneEnabled: snapshot.microphoneEnabled }
+    return { inputMode: snapshot.inputMode as HearingInputMode, autoSendEnabled: snapshot.autoSendEnabled, rephraseEnabled: snapshot.rephraseEnabled, microphoneEnabled: snapshot.microphoneEnabled }
   }
   catch {
     return undefined
@@ -61,6 +62,7 @@ export const usePhoneCallStore = defineStore('phone-call', () => {
     const devices = useSettingsAudioDevice()
     hearing.inputMode = snapshot.inputMode
     hearing.autoSendEnabled = snapshot.autoSendEnabled
+    hearing.rephraseEnabled = snapshot.rephraseEnabled
     devices.enabled = snapshot.microphoneEnabled
   }
 
@@ -115,9 +117,12 @@ export const usePhoneCallStore = defineStore('phone-call', () => {
           return { ok: false, reason: 'mic-denied' }
       }
 
-      localStorage.setItem(SNAPSHOT_KEY, JSON.stringify({ inputMode: hearing.inputMode, autoSendEnabled: hearing.autoSendEnabled, microphoneEnabled } satisfies PhoneCallSnapshot))
+      localStorage.setItem(SNAPSHOT_KEY, JSON.stringify({ inputMode: hearing.inputMode, autoSendEnabled: hearing.autoSendEnabled, rephraseEnabled: hearing.rephraseEnabled, microphoneEnabled } satisfies PhoneCallSnapshot))
       hearing.inputMode = 'always-on'
       hearing.autoSendEnabled = true
+      // The rephrase step rewrites each finished utterance with a chat model first, which is
+      // one more roundtrip on every turn. A call sends the raw transcript instead.
+      hearing.rephraseEnabled = false
       devices.enabled = true
       sessionStorage.setItem(OWNER_SESSION_KEY, '1')
       startHeartbeat()

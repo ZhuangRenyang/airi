@@ -92,7 +92,11 @@ afterEach(() => {
   localStorage.clear()
 })
 
-it('publishes the onboarding login click on the leader', async () => {
+// NOTICE (fork): sign-in is hard-disabled in this self-hosted web-only fork; the
+// welcome step renders no login action, so the click below never finds its
+// target. Removal condition: restore when a sign-in server accepting custom
+// deployment origins is available.
+it.skip('publishes the onboarding login click on the leader', async () => {
   vi.stubEnv('RUNTIME_ENVIRONMENT', 'electron')
   const namespace = `onboarding-login:${crypto.randomUUID()}`
   const leader = createSyncedContext(namespace, 'leader-only')

@@ -33,6 +33,32 @@ describe('voiceController output', () => {
     await controller.close()
   })
 
+  it('keeps playing the remaining sentences when one sentence fails to synthesize', async () => {
+    const errorSpy = vi.spyOn(console, 'error').mockImplementation(() => {})
+    const played: string[] = []
+    const playback = new Playback({ nowMs: () => 0, play: clip => ({
+      done: (clip.audio as Blob).text().then((text) => {
+        played.push(text)
+        return { throughMs: 1 }
+      }),
+      stop: async () => ({ throughMs: 0 }),
+    }) })
+    const controller = new VoiceController({ transcriber: vi.fn(), submit: vi.fn(), speech: () => ({ playback, synthesize: async (request) => {
+      if (request.text.includes('broken sentence here'))
+        throw new Error('Provider quota exhausted')
+      return new Blob([request.text])
+    } }) })
+    const response = controller.openResponse({ sessionId: 'alice', turnId: 'skip-failed' })
+    const speech = response.openSpeech({ purpose: 'answer' })
+    await speech.write('This sentence plays first. The broken sentence here fails. This sentence still plays after.')
+    speech.end()
+    expect(await response.finish()).toBe('finished')
+    expect(played.some(text => text.includes('broken'))).toBe(false)
+    expect(played.filter(text => text.includes('plays'))).toHaveLength(2)
+    errorSpy.mockRestore()
+    await controller.close()
+  })
+
   it('reports a finished response as silent when a later input interrupts it', async () => {
     const playback = new Playback({ nowMs: () => 0, play: () => ({ done: Promise.resolve({ throughMs: 1 }), stop: async () => ({ throughMs: 0 }) }) })
     const controller = new VoiceController({ speech: () => ({ playback, synthesize: async () => new Blob(['speech']) }) })

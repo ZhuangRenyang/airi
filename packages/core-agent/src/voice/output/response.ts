@@ -98,7 +98,15 @@ export class SpeechStream {
           return this.signal.aborted || response.signal.aborted ? null : audio
         }
         catch (cause) {
-          this.fail(errorFromCause(cause, 'Speech synthesis failed'))
+          // An abort keeps its cancel semantics. Any other failure only kills its
+          // own sentence: a flaky network or an exhausted provider quota used to
+          // silence the whole remaining reply, which reads as the character
+          // "stopping talking". Skip the sentence and keep the rest playing.
+          if (this.signal.aborted || response.signal.aborted) {
+            this.fail(errorFromCause(cause, 'Speech synthesis failed'))
+            return null
+          }
+          console.error(`Speech synthesis failed; skipping the sentence "${request.text.slice(0, 40)}"`, cause)
           return null
         }
       },

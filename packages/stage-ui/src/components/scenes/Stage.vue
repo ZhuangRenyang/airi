@@ -390,6 +390,25 @@ watch(() => voice.activeTurns, (turns) => {
     speechVoicing.value = false
 })
 
+// Insurance against a stuck `nowSpeaking`: the voice input guard rejects every
+// utterance while it reads true, so a leaked playing count would silence the
+// conversation forever. Responses close only after their playback drains, so
+// turns gone while speaking never unwound means the count leaked.
+let speakingStuckTimer: ReturnType<typeof setTimeout> | undefined
+watch([() => voice.activeTurns, nowSpeaking], ([turns, speaking]) => {
+  if (turns.length > 0 || !speaking) {
+    clearTimeout(speakingStuckTimer)
+    speakingStuckTimer = undefined
+    return
+  }
+  speakingStuckTimer ??= setTimeout(() => {
+    speakingStuckTimer = undefined
+    if (playingCount > 0)
+      playingCount = 0
+    resetSpeakingState()
+  }, 2000)
+}, { immediate: true })
+
 const cards = useAiriCardStore()
 const disconnectVoiceOutput = voice.connectOutput((turn) => {
   const output = {
@@ -549,21 +568,25 @@ chatHookCleanups.push(onAssistantResponseEnd(async (_message, context) => {
   void voice.finishResponse(context).catch(error => console.error('Speech response completion failed', error))
 }))
 
-// Resume audio context on first user interaction (browser requirement)
-let audioContextResumed = false
-function resumeAudioContextOnInteraction() {
-  if (audioContextResumed || !audioContext)
+// Resume audio context on user interaction (browser requirement). This runs on
+// every gesture, not only the first: a backgrounded tab or a locked phone can
+// suspend the context again, and then every later speech clip fails silently.
+function resumeAudioContext() {
+  if (!audioContext || audioContext.state === 'running' || audioContext.state === 'closed')
     return
-  audioContextResumed = true
   audioContext.resume().catch(() => {
-    // Ignore errors - audio context will be resumed when needed
+    // Ignore errors - audio context will be resumed on the next gesture.
   })
 }
 
 // The listeners close over this setup scope, so a listener that outlives the
 // stage keeps the whole unmounted stage alive, including its WebGL canvas.
-// `useEventListener` removes them on unmount if no interaction came first.
-useEventListener(['click', 'touchstart', 'keydown'], resumeAudioContextOnInteraction, { once: true, passive: true })
+// `useEventListener` removes them on unmount.
+useEventListener(['click', 'touchstart', 'keydown'], resumeAudioContext, { passive: true })
+useEventListener(document, 'visibilitychange', () => {
+  if (document.visibilityState === 'visible')
+    resumeAudioContext()
+})
 
 // NOTICE:
 // DuckDB stays off until a separate layer owns it. Nothing reads it yet,
@@ -626,6 +649,7 @@ async function captureCharacterFrame() {
 onUnmounted(() => {
   disposePlaybackStateHandler()
   resetLive2dLipSync()
+  clearTimeout(speakingStuckTimer)
   chatHookCleanups.forEach(dispose => dispose?.())
   viewUpdateCleanups.forEach(dispose => dispose?.())
   disconnectVoiceOutput()

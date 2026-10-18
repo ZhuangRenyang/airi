@@ -37,8 +37,18 @@ export class AudioOutput implements PlayingAudio {
   }
 
   private async load(audio: Blob | ReadableStream<PcmBlock>) {
-    if (this.context.state !== 'running')
-      throw new Error('Playback requires a running audio context')
+    // A backgrounded tab, a locked phone, or an output device change suspends the
+    // context; playing into it would throw and fail every later clip silently.
+    // Resume when the browser allows it (an unlocked context resumes freely), and
+    // still fail loudly when it refuses.
+    if (this.context.state !== 'running') {
+      try {
+        await this.context.resume()
+      }
+      catch (cause) {
+        throw new Error('Playback requires a running audio context', { cause })
+      }
+    }
     if (audio instanceof Blob) {
       const decoded = await this.context.decodeAudioData(await audio.arrayBuffer())
       if (!this.stopped)

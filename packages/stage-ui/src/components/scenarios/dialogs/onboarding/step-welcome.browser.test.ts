@@ -46,19 +46,16 @@ async function renderWelcomeStep(customProviderSetupEnabled: boolean) {
 describe('steam onboarding provider restrictions', () => {
   /**
    * @example
-   * it('keeps login without custom provider setup in Steam builds', async () => {})
+   * it('shows the local provider setup without a sign-in action', async () => {})
    */
-  it('keeps login without custom provider setup in Steam builds', async () => {
-    // ROOT CAUSE:
-    //
-    // The welcome step rendered its local-provider action without consulting
-    // the distribution restriction already used by settings and provider stores.
-    // A clean Steam install therefore exposed BYOK during onboarding even though
-    // the same provider paths were hidden after setup.
+  // NOTICE (fork): sign-in is hard-disabled in this self-hosted fork, so the
+  // welcome step always offers the local provider setup and never renders the
+  // login action. The upstream Steam restriction pairing no longer applies here.
+  it('shows the local provider setup without a sign-in action', async () => {
     await renderWelcomeStep(false)
 
-    expect(document.body.textContent).toContain('Sign in')
-    expect(document.body.textContent).not.toContain('Setup with your provider')
+    expect(document.body.textContent).toContain('Setup with your provider')
+    expect(document.body.textContent).not.toContain('Sign in')
   })
 
   /**
@@ -72,7 +69,11 @@ describe('steam onboarding provider restrictions', () => {
   })
 })
 
-describe('desktop onboarding sign-in', () => {
+// NOTICE (fork): sign-in is hard-disabled in this self-hosted web-only fork; the
+// login button is commented out in step-welcome.vue and requestsLogin never fires.
+// Removal condition: restore when a sign-in server accepting custom deployment
+// origins is available.
+describe.skip('desktop onboarding sign-in', () => {
   it('requests login through the auth store', async () => {
     vi.stubEnv('RUNTIME_ENVIRONMENT', 'electron')
     const pinia = createPinia()

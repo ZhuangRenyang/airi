@@ -38,7 +38,16 @@ export interface TtsInputChunkOptions {
    * @default 4
    */
   minimumWords?: number
-  /** @default 12 */
+  /**
+   * Word count a chunk may reach before the length limit ends it.
+   *
+   * Non-streaming providers pay a per-request cost (handshake, queueing) that does
+   * not shrink with the text, so tiny chunks stack those costs between sentences
+   * and read as gaps in the speech. A larger ceiling amortizes the cost over more
+   * audio; synthesis prefetch keeps the queue fed regardless.
+   *
+   * @default 20
+   */
   maximumWords?: number
   stripNarrative?: boolean
   keepNarrativeText?: boolean
@@ -57,7 +66,7 @@ export async function* chunkTtsInput(
   const {
     boost = 2,
     minimumWords = 4,
-    maximumWords = 12,
+    maximumWords = 20,
   } = options ?? {}
 
   const iterator = readGraphemeClusters(

@@ -62,6 +62,11 @@ chat:
     stop-send: Dừng và gửi
     play: Phát bản ghi âm
     pause: Tạm dừng
+  phone-call:
+    start: Bắt đầu cuộc gọi thoại
+    end: Kết thúc cuộc gọi
+    unconfigured: Hãy thiết lập nhận dạng giọng nói trước khi bắt đầu cuộc gọi.
+    mic-denied: Không thể sử dụng micrô. Hãy kiểm tra quyền và thiết bị micrô.
   voice-preview:
     processing: Đang hoàn tất phiên âm
     device: Thiết bị đầu vào âm thanh

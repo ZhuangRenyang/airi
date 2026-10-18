@@ -62,6 +62,11 @@ chat:
     stop-send: Stop and send
     play: Play recording
     pause: Pause
+  phone-call:
+    start: Start a voice call
+    end: Hang up
+    unconfigured: Set up speech recognition before starting a call.
+    mic-denied: The microphone is unavailable. Check the microphone permission and device.
   voice-preview:
     processing: Finishing transcription
     device: Audio input device

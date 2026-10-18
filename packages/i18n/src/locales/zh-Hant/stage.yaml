@@ -62,6 +62,11 @@ chat:
     stop-send: 停止並傳送
     play: 播放錄音
     pause: 暫停
+  phone-call:
+    start: 開始語音通話
+    end: 掛斷
+    unconfigured: 需要先設定語音辨識，才能開始通話。
+    mic-denied: 麥克風無法使用，請檢查麥克風權限與裝置。
   voice-preview:
     processing: 正在完成轉錄
     device: 音訊輸入裝置

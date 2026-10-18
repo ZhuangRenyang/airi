@@ -4,7 +4,7 @@ import type { ChatHistoryItem } from '@proj-airi/stage-ui/types/chat'
 
 import { useThreeViewControl } from '@proj-airi/stage-ui-three'
 import { CharacterSwitcherDrawer, ChatHistory, HearingConfig, HearingStatus, VoiceDrafts } from '@proj-airi/stage-ui/components'
-import { ChatImageAttachmentPreview, ChatProviderSetupCallout, ChatReplyPreview, ChatSessionsDrawer, useChatComposer, useChatImages, VoiceComposer } from '@proj-airi/stage-ui/components/scenarios/chat'
+import { ChatImageAttachmentPreview, ChatProviderSetupCallout, ChatReplyPreview, ChatSessionsDrawer, PhoneCallButton, useChatComposer, useChatImages, VoiceComposer } from '@proj-airi/stage-ui/components/scenarios/chat'
 import { useAnalytics, useAudioAnalyzer } from '@proj-airi/stage-ui/composables'
 import { useAudioContext } from '@proj-airi/stage-ui/stores/audio'
 import { useChatStore } from '@proj-airi/stage-ui/stores/chat'
@@ -503,6 +503,10 @@ onUnmounted(() => {
           />
         </div>
         <div :class="['min-w-10 shrink-0 flex items-end justify-end gap-1']">
+          <PhoneCallButton
+            button-class="size-10 flex items-center justify-center rounded-full outline-none text-neutral-500 transition-colors duration-200 active:scale-95 hover:bg-primary-100/60 hover:text-primary-600 dark:text-neutral-400 dark:hover:bg-primary-900/40 dark:hover:text-primary-300 motion-reduce:transition-none"
+            @configure="router.push('/settings/modules/hearing')"
+          />
           <button
             v-if="showStopAction && !voiceActive"
             data-testid="stop-speaking-button"

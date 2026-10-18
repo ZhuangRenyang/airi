@@ -59,6 +59,11 @@ chat:
     stop: Arrêter l’enregistrement
     stop-send: Arrêter et envoyer
     play: Lire l’enregistrement
+  phone-call:
+    start: Démarrer un appel vocal
+    end: Raccrocher
+    unconfigured: Configurez la reconnaissance vocale avant de démarrer un appel.
+    mic-denied: Microphone indisponible. Vérifiez l’autorisation et le périphérique.
   voice-preview:
     processing: Finalisation de la transcription
     device: Périphérique d’entrée audio

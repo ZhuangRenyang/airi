@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type { ChatComposerController, ChatImageAttachment } from '@proj-airi/stage-ui/components/scenarios/chat'
 
-import { ChatImageAttachmentPreview, ChatProviderSetupCallout, ChatReplyPreview, ChatSendButton, useChatImages, VoiceDrafts, VoiceInputButton } from '@proj-airi/stage-ui/components/scenarios/chat'
+import { ChatImageAttachmentPreview, ChatProviderSetupCallout, ChatReplyPreview, ChatSendButton, PhoneCallButton, useChatImages, VoiceDrafts, VoiceInputButton } from '@proj-airi/stage-ui/components/scenarios/chat'
 import { useChatSessionStore } from '@proj-airi/stage-ui/stores/chat/session-store'
 import { useConsciousnessStore } from '@proj-airi/stage-ui/stores/modules/consciousness'
 import { useSettings } from '@proj-airi/stage-ui/stores/settings'
@@ -212,6 +212,7 @@ watch(replyTarget, async (target) => {
         <!-- The voice control shows its recording status here, so the composer keeps its height. -->
         <div ref="voiceStatus" :class="['min-w-0 flex flex-1 items-center']" />
         <div :class="['flex shrink-0 items-center gap-1']">
+          <PhoneCallButton @configure="router.push('/settings/modules/hearing')" />
           <VoiceInputButton
             ref="voiceButton"
             v-model="messageInput"

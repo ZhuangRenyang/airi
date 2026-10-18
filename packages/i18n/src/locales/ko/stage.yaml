@@ -62,6 +62,11 @@ chat:
     stop-send: 중지하고 보내기
     play: 녹음 재생
     pause: 일시 중지
+  phone-call:
+    start: 음성 통화 시작
+    end: 통화 끊기
+    unconfigured: 통화를 시작하려면 먼저 음성 인식을 설정하세요.
+    mic-denied: 마이크를 사용할 수 없습니다. 마이크 권한과 장치를 확인하세요.
   voice-preview:
     processing: 전사 마무리 중
     device: 오디오 입력 장치

@@ -62,6 +62,11 @@ chat:
     stop-send: Detener y enviar
     play: Reproducir grabación
     pause: Pausar
+  phone-call:
+    start: Iniciar una llamada de voz
+    end: Colgar
+    unconfigured: Configura el reconocimiento de voz antes de iniciar una llamada.
+    mic-denied: El micrófono no está disponible. Comprueba el permiso y el dispositivo.
   voice-preview:
     processing: Finalizando transcripción
     device: Dispositivo de entrada de audio

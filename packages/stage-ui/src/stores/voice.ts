@@ -510,9 +510,12 @@ export const useVoiceStore = defineStore('voice', () => {
           return false
         return Date.now() - speakingEndedAt >= 500
       }),
-      // Wake word mode returns no target, so VAD alone cannot start an input. A wake supplies its own target.
+      // Wake word mode supplies its own target; VAD alone starts none. The half-duplex
+      // guard refuses VAD inputs while playback runs, so the turns present at admission
+      // are silently generating ones. Interrupting those on a VAD blip cancelled the
+      // pending reply; a real follow-up utterance queues as the next message.
       target: () => sessions.activeSessionId && hearing.configured && startsInputOnSpeech(hearing.inputMode)
-        ? { sessionId: sessions.activeSessionId, interruptTurns: activeTurns.value.filter(turn => turn.sessionId === sessions.activeSessionId) }
+        ? { sessionId: sessions.activeSessionId, interruptTurns: [] }
         : undefined,
     })
 

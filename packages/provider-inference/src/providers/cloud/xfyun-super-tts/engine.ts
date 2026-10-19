@@ -21,6 +21,27 @@ import { arrayBufferToBase64 } from '../base64'
 const XFYUN_SUPER_TTS_HOST = 'cbm01.cn-huabei-1.xf-yun.com'
 const XFYUN_SUPER_TTS_PATH = '/v1/private/mcd9m97e6'
 
+/** The trial tier throttles connections; a stalled socket must not hang the whole reply. */
+const OPEN_TIMEOUT_MS = 10_000
+const SYNTHESIS_TIMEOUT_MS = 30_000
+
+/** Races `promise` against a timer that fires with `message` when `ms` elapses first. */
+function withTimeout<T>(promise: Promise<T>, ms: number, message: string): Promise<T> {
+  return new Promise<T>((resolve, reject) => {
+    const timer = setTimeout(() => reject(new Error(message)), ms)
+    promise.then(
+      (value) => {
+        clearTimeout(timer)
+        resolve(value)
+      },
+      (cause) => {
+        clearTimeout(timer)
+        reject(cause)
+      },
+    )
+  })
+}
+
 async function hmacSha256Base64(message: string, secret: string) {
   const encoder = new TextEncoder()
   const key = await crypto.subtle.importKey('raw', encoder.encode(secret), { name: 'HMAC', hash: 'SHA-256' }, false, ['sign'])
@@ -112,8 +133,13 @@ export async function synthesizeXfyunSuperSpeech(
   }
   options.signal?.addEventListener('abort', abortHandler, { once: true })
 
+  // Whichever promise loses its race must not surface an unhandled rejection
+  // after the finally closes the socket and the event handlers fire.
+  opened.catch(() => {})
+  finished.catch(() => {})
+
   try {
-    await opened
+    await withTimeout(opened, OPEN_TIMEOUT_MS, '讯飞超拟人语音合成连接超时：10 秒内未建立 WebSocket 连接，请检查网络后重试。')
 
     // The request protocol has no `business` layer: parameters nest under
     // `parameter.tts`, and the text payload is base64 (error 10161 otherwise).
@@ -151,7 +177,7 @@ export async function synthesizeXfyunSuperSpeech(
     }
     ws.send(JSON.stringify(request))
 
-    await finished
+    await withTimeout(finished, SYNTHESIS_TIMEOUT_MS, '讯飞超拟人语音合成响应超时：30 秒内未收到完整音频，可能是试用额度限流，本句将跳过。')
   }
   finally {
     options.signal?.removeEventListener('abort', abortHandler)

@@ -65,6 +65,16 @@ export const useVoiceStore = defineStore('voice', () => {
   let output: ((turn: TurnRef) => SpeechOutput) | undefined
   let listening: VoicePluginHandle | undefined
   let detectorOptions: Pick<VoiceActivityOptions, 'detectWakeWord' | 'acceptSpeech'> = {}
+  /**
+   * When the playback last drained. The capture latency carries several windows of the
+   * utterance's room echo past the moment `nowSpeaking` clears, so the half-duplex guard
+   * keeps rejecting speech for a short tail instead of starting an input on the echo.
+   */
+  let speakingEndedAt = 0
+  watch(() => speaking.nowSpeaking, (speakingNow) => {
+    if (!speakingNow)
+      speakingEndedAt = Date.now()
+  })
   const inputRequests = new Map<string, SpeechInputAttempt>()
   /**
    * Inputs that a composer began, keyed by attempt ID. Submission stores the final text here instead of creating a draft.
@@ -492,10 +502,14 @@ export const useVoiceStore = defineStore('voice', () => {
       enabled: () => !voiceMessages.isRecording,
       silenceMs: () => hearing.endJudgeEnabled ? VOICE_END_SILENCE.pauseMs + VOICE_END_SILENCE.graceMs : VOICE_END_SILENCE.pauseMs,
       // Half duplex. The microphone hears the character's playback, and platform echo
-      // cancellation does not cover Web Audio output, so barge-in on `echoCancellation`
-      // interrupted every spoken reply after its first syllables. Speech during playback
-      // waits for the playback to end, then starts an input as usual.
-      acceptSpeech: options.acceptSpeech ?? (async () => !speaking.nowSpeaking),
+      // cancellation does not cover Web Audio output, so barge-in interrupted every
+      // spoken reply after its first syllables. Speech that starts and ends during the
+      // playback is dropped; speech right after it is the echo of the tail.
+      acceptSpeech: options.acceptSpeech ?? (async () => {
+        if (speaking.nowSpeaking)
+          return false
+        return Date.now() - speakingEndedAt >= 500
+      }),
       // Wake word mode returns no target, so VAD alone cannot start an input. A wake supplies its own target.
       target: () => sessions.activeSessionId && hearing.configured && startsInputOnSpeech(hearing.inputMode)
         ? { sessionId: sessions.activeSessionId, interruptTurns: activeTurns.value.filter(turn => turn.sessionId === sessions.activeSessionId) }

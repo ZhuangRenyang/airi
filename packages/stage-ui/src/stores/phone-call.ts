@@ -14,6 +14,7 @@ interface PhoneCallSnapshot {
   inputMode: HearingInputMode
   autoSendEnabled: boolean
   rephraseEnabled: boolean
+  endJudgeEnabled: boolean
   microphoneEnabled: boolean
 }
 
@@ -33,7 +34,9 @@ function readSnapshot(): PhoneCallSnapshot | undefined {
     const snapshot = JSON.parse(raw) as Partial<PhoneCallSnapshot>
     if (typeof snapshot.inputMode !== 'string' || typeof snapshot.autoSendEnabled !== 'boolean' || typeof snapshot.rephraseEnabled !== 'boolean' || typeof snapshot.microphoneEnabled !== 'boolean')
       return undefined
-    return { inputMode: snapshot.inputMode as HearingInputMode, autoSendEnabled: snapshot.autoSendEnabled, rephraseEnabled: snapshot.rephraseEnabled, microphoneEnabled: snapshot.microphoneEnabled }
+    // Snapshots saved before the end judge joined the call override miss the field.
+    const endJudgeEnabled = typeof snapshot.endJudgeEnabled === 'boolean' ? snapshot.endJudgeEnabled : true
+    return { inputMode: snapshot.inputMode as HearingInputMode, autoSendEnabled: snapshot.autoSendEnabled, rephraseEnabled: snapshot.rephraseEnabled, endJudgeEnabled, microphoneEnabled: snapshot.microphoneEnabled }
   }
   catch {
     return undefined
@@ -63,6 +66,7 @@ export const usePhoneCallStore = defineStore('phone-call', () => {
     hearing.inputMode = snapshot.inputMode
     hearing.autoSendEnabled = snapshot.autoSendEnabled
     hearing.rephraseEnabled = snapshot.rephraseEnabled
+    hearing.endJudgeEnabled = snapshot.endJudgeEnabled
     devices.enabled = snapshot.microphoneEnabled
   }
 
@@ -117,12 +121,16 @@ export const usePhoneCallStore = defineStore('phone-call', () => {
           return { ok: false, reason: 'mic-denied' }
       }
 
-      localStorage.setItem(SNAPSHOT_KEY, JSON.stringify({ inputMode: hearing.inputMode, autoSendEnabled: hearing.autoSendEnabled, rephraseEnabled: hearing.rephraseEnabled, microphoneEnabled } satisfies PhoneCallSnapshot))
+      localStorage.setItem(SNAPSHOT_KEY, JSON.stringify({ inputMode: hearing.inputMode, autoSendEnabled: hearing.autoSendEnabled, rephraseEnabled: hearing.rephraseEnabled, endJudgeEnabled: hearing.endJudgeEnabled, microphoneEnabled } satisfies PhoneCallSnapshot))
       hearing.inputMode = 'always-on'
       hearing.autoSendEnabled = true
       // The rephrase step rewrites each finished utterance with a chat model first, which is
       // one more roundtrip on every turn. A call sends the raw transcript instead.
       hearing.rephraseEnabled = false
+      // The end judge is another per-turn model call: without it, a 1.2 s pause ends the
+      // utterance on its own, and a failing or slow judge could stretch every turn to the
+      // 4.2 s grace. A call takes the plain pause as the turn boundary.
+      hearing.endJudgeEnabled = false
       devices.enabled = true
       sessionStorage.setItem(OWNER_SESSION_KEY, '1')
       startHeartbeat()

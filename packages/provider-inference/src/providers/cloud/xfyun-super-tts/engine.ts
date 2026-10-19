@@ -16,6 +16,8 @@
  * x4_yuting, ...). Removal condition: when iFlytek ends the trial web tier.
  */
 
+import { errorMessageFrom } from '@moeru/std'
+
 import { arrayBufferToBase64 } from '../base64'
 
 const XFYUN_SUPER_TTS_HOST = 'cbm01.cn-huabei-1.xf-yun.com'
@@ -23,7 +25,11 @@ const XFYUN_SUPER_TTS_PATH = '/v1/private/mcd9m97e6'
 
 /** The trial tier throttles connections; a stalled socket must not hang the whole reply. */
 const OPEN_TIMEOUT_MS = 10_000
-const SYNTHESIS_TIMEOUT_MS = 30_000
+/** Normal sentences finish in a few seconds; 15 s fails fast so the retry below can take over. */
+const SYNTHESIS_TIMEOUT_MS = 15_000
+/** One retry after a short backoff recovers most transient throttle stalls instead of dropping the sentence. */
+const RETRY_BACKOFF_MS = 800
+const MAX_ATTEMPTS = 2
 
 /** Races `promise` against a timer that fires with `message` when `ms` elapses first. */
 function withTimeout<T>(promise: Promise<T>, ms: number, message: string): Promise<T> {
@@ -74,8 +80,46 @@ export interface XfyunSuperTtsSynthesisOptions {
 
 /**
  * Synthesizes `text` over one WebSocket turn and resolves the raw MP3 bytes.
+ *
+ * The trial tier throttles intermittently (connections stall or get cut);
+ * a failed attempt retries once after a short backoff before the sentence
+ * is given up, which keeps the spoken reply complete under light throttling.
  */
 export async function synthesizeXfyunSuperSpeech(
+  text: string,
+  apiKey: string,
+  apiSecret: string,
+  options: XfyunSuperTtsSynthesisOptions,
+): Promise<ArrayBuffer> {
+  let lastError: unknown
+  for (let attempt = 1; attempt <= MAX_ATTEMPTS; attempt++) {
+    if (options.signal?.aborted)
+      throw lastError instanceof Error ? lastError : new Error('讯飞超拟人语音合成已中止')
+
+    try {
+      return await synthesizeXfyunSuperSpeechOnce(text, apiKey, apiSecret, options)
+    }
+    catch (error) {
+      lastError = error
+      if (options.signal?.aborted || attempt >= MAX_ATTEMPTS)
+        throw error
+
+      console.warn(`讯飞超拟人语音合成第 ${attempt} 次尝试失败，${RETRY_BACKOFF_MS}ms 后重试：`, errorMessageFrom(error) ?? error)
+      await new Promise<void>((resolve, reject) => {
+        const timer = setTimeout(resolve, RETRY_BACKOFF_MS)
+        options.signal?.addEventListener('abort', () => {
+          clearTimeout(timer)
+          reject(new Error('讯飞超拟人语音合成重试等待中被中止'))
+        }, { once: true })
+      }).catch(() => {
+        // Swallowed on abort; the loop head re-checks the signal and rethrows.
+      })
+    }
+  }
+  throw lastError instanceof Error ? lastError : new Error('讯飞超拟人语音合成失败')
+}
+
+async function synthesizeXfyunSuperSpeechOnce(
   text: string,
   apiKey: string,
   apiSecret: string,
@@ -177,7 +221,7 @@ export async function synthesizeXfyunSuperSpeech(
     }
     ws.send(JSON.stringify(request))
 
-    await withTimeout(finished, SYNTHESIS_TIMEOUT_MS, '讯飞超拟人语音合成响应超时：30 秒内未收到完整音频，可能是试用额度限流，本句将跳过。')
+    await withTimeout(finished, SYNTHESIS_TIMEOUT_MS, '讯飞超拟人语音合成响应超时：15 秒内未收到完整音频，可能是试用额度限流，将重试或跳过本句。')
   }
   finally {
     options.signal?.removeEventListener('abort', abortHandler)
